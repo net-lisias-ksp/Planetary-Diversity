@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity", "src\main\PlanetaryDiversity.csproj", "{EAEAC00F-05BA-4C4B-9625-EF12C0384CDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.API", "src\api\PlanetaryDiversity.API.csproj", "{CFAEC4BD-4974-451A-9C3C-08E90EA75A6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PQSMods", "PQSMods", "{70428AEC-2261-491C-A6C4-A418435AD87E}"
+EndProject 
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.PQSMods.Seed", "src\pqsmods\seed\PlanetaryDiversity.PQSMods.Seed.csproj", "{8E05AA91-E0ED-414B-8BCB-C96F9D298930}" 
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EAEAC00F-05BA-4C4B-9625-EF12C0384CDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAEAC00F-05BA-4C4B-9625-EF12C0384CDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAEAC00F-05BA-4C4B-9625-EF12C0384CDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAEAC00F-05BA-4C4B-9625-EF12C0384CDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFAEC4BD-4974-451A-9C3C-08E90EA75A6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFAEC4BD-4974-451A-9C3C-08E90EA75A6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFAEC4BD-4974-451A-9C3C-08E90EA75A6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFAEC4BD-4974-451A-9C3C-08E90EA75A6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E05AA91-E0ED-414B-8BCB-C96F9D298930}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E05AA91-E0ED-414B-8BCB-C96F9D298930}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E05AA91-E0ED-414B-8BCB-C96F9D298930}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E05AA91-E0ED-414B-8BCB-C96F9D298930}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8E05AA91-E0ED-414B-8BCB-C96F9D298930} = {70428AEC-2261-491C-A6C4-A418435AD87E}
+	EndGlobalSection
+EndGlobal
