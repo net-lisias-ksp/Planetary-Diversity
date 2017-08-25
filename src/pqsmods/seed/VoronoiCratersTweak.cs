@@ -21,7 +21,7 @@ namespace PlanetaryDiversity.PQSMods.Seed
         /// <summary>
         /// Changes the parameters of the PQSMod
         /// </summary>
-        public override void Tweak(CelestialBody body, PQSMod_VoronoiCraters mod)
+        public override Boolean Tweak(CelestialBody body, PQSMod_VoronoiCraters mod)
         {
             // Get the game seed
             Int32 seed = HighLogic.CurrentGame.Seed;
@@ -30,6 +30,9 @@ namespace PlanetaryDiversity.PQSMods.Seed
             // Apply it
             mod.simplexSeed = random.Next();
             mod.voronoiSeed = random.Next();
+
+            // We changed something
+            return true;
         }
     }
 }

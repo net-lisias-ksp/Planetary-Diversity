@@ -20,7 +20,7 @@ namespace PlanetaryDiversity.API
         /// <summary>
         /// Changes the parameters of the PQSMod
         /// </summary>
-        void Tweak(CelestialBody body, PQSMod mod);
+        Boolean Tweak(CelestialBody body, PQSMod mod);
     }
 
     /// <summary>
@@ -41,17 +41,18 @@ namespace PlanetaryDiversity.API
         /// <summary>
         /// Changes the parameters of the PQSMod
         /// </summary>
-        void IPQSModTweaker.Tweak(CelestialBody body, PQSMod mod)
+        Boolean IPQSModTweaker.Tweak(CelestialBody body, PQSMod mod)
         {
             if (mod is T)
             {
-                Tweak(body, (T)mod);
+                return Tweak(body, (T)mod);
             }
+            return false;
         }
         
         /// <summary>
         /// Changes the parameters of the PQSMod
         /// </summary>
-        public abstract void Tweak(CelestialBody body, T mod);
+        public abstract Boolean Tweak(CelestialBody body, T mod);
     }
 }
