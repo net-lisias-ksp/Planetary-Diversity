@@ -37,6 +37,11 @@ namespace PlanetaryDiversity
         private List<CelestialBody> scaledSpaceUpdate { get; set; }
 
         /// <summary>
+        /// A list of bodies that shouldn't get edited
+        /// </summary>
+        private ConfigNode bodyBlacklist { get; set; }
+
+        /// <summary>
         /// Called when the Component is created
         /// </summary>
         void Awake()
@@ -70,6 +75,9 @@ namespace PlanetaryDiversity
                     }
                 }
             });
+
+            // Get the blacklist
+            bodyBlacklist = GameDatabase.Instance.GetConfigs("PD_BODY_BLACKLIST")[0].config;
 
             // Register the callback for manipulating the system
             GameEvents.onGameSceneSwitchRequested.Add(OnGameSceneSwitchRequested);
@@ -113,6 +121,13 @@ namespace PlanetaryDiversity
                     {
                         // Get the Body
                         CelestialBody body = PSystemManager.Instance.localBodies[j];
+
+                        // Is this body blacklisted?
+                        if (bodyBlacklist != null)
+                        {
+                            if (bodyBlacklist.GetValues("blacklist").Any(b => body.bodyName == b))
+                                continue;
+                        }
 
                         // Get the PQSMods
                         PQSMod[] mods = body.GetComponentsInChildren<PQSMod>(true);
