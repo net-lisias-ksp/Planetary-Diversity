@@ -214,7 +214,7 @@ namespace PlanetaryDiversity
             {
                 // Round it up to a 1MB multiple
                 sizeWholeFile = (fileBytes + 0xFFFFF) & ~0xFFFFF;
-                Debug.Log("[OD] LoadWholeFile reallocating buffer to " + sizeWholeFile);
+                Debug.Log("[PlaneraryDiversity] LoadWholeFile reallocating buffer to " + sizeWholeFile);
                 wholeFileBuffer = new byte[sizeWholeFile];
             }
             else
@@ -261,7 +261,7 @@ namespace PlanetaryDiversity
             {
                 // Round it up to a 1MB multiple
                 sizeWholeFile = (fileBytes + 0xFFFFF) & ~0xFFFFF;
-                Debug.Log("[OD] LoadRestOfReader reallocating buffer to " + sizeWholeFile);
+                Debug.Log("[PlaneraryDiversity] LoadRestOfReader reallocating buffer to " + sizeWholeFile);
                 wholeFileBuffer = new byte[sizeWholeFile];
             }
             else
@@ -303,7 +303,7 @@ namespace PlanetaryDiversity
                 }
 
                 arrayLengthOffset = (*p == 3) ? offset : 1;
-                Debug.Log("[OD] CalculateArrayLengthOffset using offset of " + arrayLengthOffset);
+                Debug.Log("[PlaneraryDiversity] CalculateArrayLengthOffset using offset of " + arrayLengthOffset);
             }
         }
 
@@ -373,15 +373,15 @@ namespace PlanetaryDiversity
                                 }
                                 else if (dDSHeader.ddspf.dwFourCC == DDSHeaders.DDSValues.uintDXT2)
                                 {
-                                    Debug.Log("[Kopernicus]: DXT2 not supported" + path);
+                                    Debug.Log("[PlaneraryDiversity]: DXT2 not supported" + path);
                                 }
                                 else if (dDSHeader.ddspf.dwFourCC == DDSHeaders.DDSValues.uintDXT4)
                                 {
-                                    Debug.Log("[Kopernicus]: DXT4 not supported: " + path);
+                                    Debug.Log("[PlaneraryDiversity]: DXT4 not supported: " + path);
                                 }
                                 else if (dDSHeader.ddspf.dwFourCC == DDSHeaders.DDSValues.uintDX10)
                                 {
-                                    Debug.Log("[Kopernicus]: DX10 dds not supported: " + path);
+                                    Debug.Log("[PlaneraryDiversity]: DX10 dds not supported: " + path);
                                 }
                                 else
                                     fourcc = false;
@@ -419,7 +419,7 @@ namespace PlanetaryDiversity
                                 else
                                 {
                                     ok = false;
-                                    Debug.Log("[Kopernicus]: Only DXT1, DXT5, A8, RGB24, RGBA32, RGB565, ARGB4444 and RGBA4444 are supported");
+                                    Debug.Log("[PlaneraryDiversity]: Only DXT1, DXT5, A8, RGB24, RGBA32, RGB565, ARGB4444 and RGBA4444 are supported");
                                 }
                                 if (ok)
                                 {
@@ -433,7 +433,7 @@ namespace PlanetaryDiversity
                                     map.Apply(false, unreadable);
                         }
                         else
-                            Debug.Log("[Kopernicus]: Bad DDS header.");
+                            Debug.Log("[PlaneraryDiversity]: Bad DDS header.");
                     }
                     else
                     {
@@ -452,16 +452,16 @@ namespace PlanetaryDiversity
                 catch (Exception ex)
                 {
                     uncaught = false;
-                    Debug.Log("[Kopernicus]: failed to load " + path + " with exception " + ex.Message);
+                    Debug.Log("[PlaneraryDiversity]: failed to load " + path + " with exception " + ex.Message);
                 }
                 if (map == null && uncaught)
                 {
-                    Debug.Log("[Kopernicus]: failed to load " + path);
+                    Debug.Log("[PlaneraryDiversity]: failed to load " + path);
                 }
                 map.name = path.Remove(0, (KSPUtil.ApplicationRootPath + "GameData/").Length);
             }
             else
-                Debug.Log("[Kopernicus]: texture does not exist! " + path);
+                Debug.Log("[PlaneraryDiversity]: texture does not exist! " + path);
 
             return map;
         }

@@ -131,7 +131,7 @@ namespace PlanetaryDiversity
                         }       
                         
                         // The body was edited, we should update it's scaled space
-                        if (edited)
+                        if (edited && !scaledSpaceUpdate.Any(b => b.name == body.name))
                         {
                             scaledSpaceUpdate.Add(body);
                         }
@@ -190,7 +190,7 @@ namespace PlanetaryDiversity
                 GUIStyle green = new GUIStyle(GUI.skin.label);
                 green.normal.textColor = XKCDColors.AcidGreen;
                 GUIStyle red = new GUIStyle(GUI.skin.label);
-                red.normal.textColor = XKCDColors.BrightOrange;
+                red.normal.textColor = Color.yellow;
                 for (Int32 i = 0; i < scaledSpaceUpdate.Count; i++)
                 {
                     // Get the body
@@ -200,7 +200,7 @@ namespace PlanetaryDiversity
                     if (current != body.bodyDisplayName)
                     {
                         GUILayout.BeginHorizontal();
-                        GUILayout.Label("   " + body.bodyDisplayName.Replace("^N", "") + " (100%)", green);
+                        GUILayout.Label("   " + body.bodyDisplayName.Replace("^N", "") + " (100.00 %)", green);
                         GUILayout.EndHorizontal();
                     }
                     else
@@ -208,7 +208,7 @@ namespace PlanetaryDiversity
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("   " + body.bodyDisplayName.Replace("^N", "") + " (" + percent.ToString("0.00") + " %)", red);
                         GUILayout.EndHorizontal();
-                        i = scaledSpaceUpdate.Count;
+                        break;
                     }
                 }
                 GUILayout.EndScrollView();
@@ -420,6 +420,7 @@ namespace PlanetaryDiversity
                     body.scaledBody.GetComponent<MeshRenderer>().material.SetTexture("_BumpMap", normalMap);
                     yield return null;
                 }
+                percent = 0;
                 yield return null;
             }
             guiEnabled = false;
