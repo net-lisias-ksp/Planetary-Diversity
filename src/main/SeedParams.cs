@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using KSP.Localization;
 using UnityEngine;
 
@@ -19,6 +19,8 @@ namespace PlanetaryDiversity
             {
                 if (!value || dialog != null)
                     return;
+                if (Seed == null)
+                    Seed = new System.Random(Environment.TickCount ^ Guid.NewGuid().GetHashCode()).Next().ToString();
                 dialog = PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new MultiOptionDialog("SeedParams",
                     Localizer.Format("#LOC_PlanetaryDiversity_SeedParams_DialogMsg"),
                     Localizer.Format("#LOC_PlanetaryDiversity_SeedParams_DialogTitle"),
@@ -32,8 +34,7 @@ namespace PlanetaryDiversity
                     ), true, UISkinManager.GetSkin("MainMenuSkin"));
             }
         }
-
-        [GameParameters.CustomStringParameterUI("#LOC_PlanetaryDiversity_SeedParams_SeedDisplay", newGameOnly = true)]
+        
         public String Seed { get; set; }
 
         public override String Title => Localizer.Format("#LOC_PlanetaryDiversity_SeedParams_Title");
@@ -51,13 +52,15 @@ namespace PlanetaryDiversity
         public SeedParams() : base()
         {
             GameEvents.onGameStateCreated.Add(OnGameStateCreated);
-            Seed = new System.Random(Environment.TickCount ^ Guid.NewGuid().GetHashCode()).Next().ToString();
         }
 
         void OnGameStateCreated(Game game)
         {
+            if (Seed == null)
+                game.Seed = new System.Random(Environment.TickCount ^ Guid.NewGuid().GetHashCode()).Next();
             if (!Int32.TryParse(Seed, out game.Seed))
                 game.Seed = Seed.GetHashCode();
+            Seed = null;
         }
     }
-}
+}*/
