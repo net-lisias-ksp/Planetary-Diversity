@@ -261,66 +261,24 @@ namespace PlanetaryDiversity
                 // Otherwise we have to generate the mesh
                 else
                 {
-                    PQS bodyPQS = body.pqsController;
-                    Single joolScaledRad = 1000f;
-                    Single joolRad = 6000000f;
-                    Single scale = (float)bodyPQS.radius / joolScaledRad;
-                    Mesh meshinput = body.scaledBody.GetComponent<MeshFilter>().sharedMesh;
-                    yield return null;
+                    const Double rJool = 6000000.0;
+                    const Single rScaled = 1000.0f;
 
-                    Vector3[] vertices = new Vector3[meshinput.vertices.Length];
-
-                    // One could use pqs.radiusMin and pqs.radiusMax to determine minimum and maximum height.
-                    // But to be safe, the height limit values will be determined manually.
-                    Single radiusMin = 0;
-                    Single radiusMax = 0;
-
-                    bodyPQS.isBuildingMaps = true;
-                    for (Int32 i = 0; i < meshinput.vertices.Length; i++)
-                    {
-                        Vector3 vertex = meshinput.vertices[i];
-                        Single rootrad = (float)Math.Sqrt(vertex.x * vertex.x +
-                                                           vertex.y * vertex.y +
-                                                           vertex.z * vertex.z);
-                        Single localRadius = (float)bodyPQS.GetSurfaceHeight(vertex) / scale;
-                        vertices[i] = vertex * (localRadius / rootrad);
-
-                        if (i == 0)
-                        {
-                            radiusMin = radiusMax = localRadius;
-                        }
-                        else
-                        {
-                            if (radiusMin > localRadius) radiusMin = localRadius;
-                            if (radiusMax < localRadius) radiusMax = localRadius;
-                        }
-                    }
-                    bodyPQS.isBuildingMaps = false;
-                    yield return null;
-
-                    // Adjust the mesh so the maximum radius has 1000 unit in scaled space.
-                    // (so the planets will fit in the science archive list)
-                    Single r = radiusMax / 1000;
-                    for (Int32 i = 0; i < vertices.Length; i++)
-                    {
-                        vertices[i] /= r;
-                    }
-                    yield return null;
-
-                    // Use the lowest radius as collision radius.
-                    Single radius = radiusMin / r;
-
-                    // Calculate the local scale.
-                    Vector3 localScale = Vector3.one * ((float)bodyPQS.radius / joolRad) * r;
+                    // Compute scale between Jool and this body
+                    float scale = (float)(body.Radius / rJool);
+                    body.scaledBody.transform.localScale = new Vector3(scale, scale, scale);
 
                     // Apply the mesh to ScaledSpace
                     MeshFilter meshfilter = body.scaledBody.GetComponent<MeshFilter>();
                     SphereCollider collider = body.scaledBody.GetComponent<SphereCollider>();
-                    meshfilter.sharedMesh.vertices = vertices;
-                    meshfilter.sharedMesh.RecalculateNormals();
+                    meshfilter.sharedMesh = Utility.ComputeScaledSpaceMesh(body, body.pqsController);
+                    yield return null;
                     Utility.RecalculateTangents(meshfilter.sharedMesh);
-                    collider.radius = radius;
-                    body.scaledBody.transform.localScale = localScale;
+                    collider.radius = rScaled;
+                    if (body.pqsController != null)
+                    {
+                        body.scaledBody.gameObject.transform.localScale = Vector3.one * (float)(body.pqsController.radius / rJool);
+                    }
                     yield return null;
 
                     // Serialize

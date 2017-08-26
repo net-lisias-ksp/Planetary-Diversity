@@ -2,16 +2,150 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
+using System.Reflection;
 
 namespace PlanetaryDiversity
 {
     /// <summary>
     /// Generic utility functions
+    /// This file is a stripped version of Kopernicus Utility.cs, which is licensed under LGPL.
     /// </summary>
     public static class Utility
-    {
+    {        
+        /**
+         * Recursively searches for a named PSystemBody
+         *
+         * @param body Parent body to begin search in
+         * @param name Name of body to find
+         * 
+         * @return Desired body or null if not found
+         */
+        public static PSystemBody FindBody(PSystemBody body, string name)
+        {
+            // Is this the body wer are looking for?
+            if (body.celestialBody.bodyName == name)
+                return body;
+
+            // Otherwise search children
+            foreach (PSystemBody child in body.children)
+            {
+                PSystemBody b = FindBody(child, name);
+                if (b != null)
+                    return b;
+            }
+
+            // Return null because we didn't find shit
+            return null;
+        }
+
+        // Generate the scaled space mesh using PQS (all results use scale of 1)
+        public static Mesh ComputeScaledSpaceMesh(CelestialBody body, PQS pqsVersion)
+        {
+            // We need to get the body for Jool (to steal it's mesh)
+            const double rScaledJool = 1000.0f;
+            double rMetersToScaledUnits = (float)(rScaledJool / body.Radius);
+
+            // Generate a duplicate of the Jool mesh
+            Mesh mesh = DuplicateMesh(MeshStealer.ReferenceGeosphere);
+
+            // If this body has a PQS, we can create a more detailed object
+            if (pqsVersion != null)
+            {
+                // Find the PQS mods and enable the PQS-sphere
+                IEnumerable<PQSMod> mods = pqsVersion.GetComponentsInChildren<PQSMod>(true).Where(m => m.modEnabled).OrderBy(m => m.order);
+                foreach (PQSMod flatten in mods.Where(m => m is PQSMod_FlattenArea))
+                    flatten.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance).Where(f => f.FieldType == typeof(Boolean)).First().SetValue(flatten, true);
+                
+                pqsVersion.isBuildingMaps = true;
+
+                // If we were able to find PQS mods
+                if (mods.Count() > 0)
+                {
+                    // Generate the PQS modifications
+                    Vector3[] vertices = mesh.vertices;
+                    for (int i = 0; i < mesh.vertexCount; i++)
+                    {
+                        // Get the UV coordinate of this vertex
+                        Vector2 uv = mesh.uv[i];
+
+                        // Since this is a geosphere, normalizing the vertex gives the direction from center center
+                        Vector3 direction = vertices[i];
+                        direction.Normalize();
+
+                        // Build the vertex data object for the PQS mods
+                        PQS.VertexBuildData vertex = new PQS.VertexBuildData();
+                        vertex.directionFromCenter = direction;
+                        vertex.vertHeight = body.Radius;
+                        vertex.u = uv.x;
+                        vertex.v = uv.y;
+
+                        // Build from the PQS
+                        foreach (PQSMod mod in mods)
+                            mod.OnVertexBuildHeight(vertex);
+
+                        // Check for sea level
+                        if (body.ocean && vertex.vertHeight < body.Radius)
+                            vertex.vertHeight = body.Radius;
+
+                        // Adjust the displacement
+                        vertices[i] = direction * (float)(vertex.vertHeight * rMetersToScaledUnits);
+                    }
+                    mesh.vertices = vertices;
+                    mesh.RecalculateNormals();
+                    mesh.RecalculateBounds();
+                }
+
+                // Cleanup
+                pqsVersion.isBuildingMaps = false;
+            }
+
+            // Return the generated scaled space mesh
+            return mesh;
+        }
+
+        public static Mesh DuplicateMesh(Mesh source)
+        {
+            // Create new mesh object
+            Mesh dest = new Mesh();
+
+            //ProfileTimer.Push("CopyMesh");
+            Vector3[] verts = new Vector3[source.vertexCount];
+            source.vertices.CopyTo(verts, 0);
+            dest.vertices = verts;
+
+            int[] tris = new int[source.triangles.Length];
+            source.triangles.CopyTo(tris, 0);
+            dest.triangles = tris;
+
+            Vector2[] uvs = new Vector2[source.uv.Length];
+            source.uv.CopyTo(uvs, 0);
+            dest.uv = uvs;
+
+            Vector2[] uv2s = new Vector2[source.uv2.Length];
+            source.uv2.CopyTo(uv2s, 0);
+            dest.uv2 = uv2s;
+
+            Vector3[] normals = new Vector3[source.normals.Length];
+            source.normals.CopyTo(normals, 0);
+            dest.normals = normals;
+
+            Vector4[] tangents = new Vector4[source.tangents.Length];
+            source.tangents.CopyTo(tangents, 0);
+            dest.tangents = tangents;
+
+            Color[] colors = new Color[source.colors.Length];
+            source.colors.CopyTo(colors, 0);
+            dest.colors = colors;
+
+            Color32[] colors32 = new Color32[source.colors32.Length];
+            source.colors32.CopyTo(colors32, 0);
+            dest.colors32 = colors32;
+
+            //ProfileTimer.Pop("CopyMesh");
+            return dest;
+        }
+
         public static void RecalculateTangents(Mesh theMesh)
         {
             int vertexCount = theMesh.vertexCount;
