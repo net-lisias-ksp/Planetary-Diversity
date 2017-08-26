@@ -4,9 +4,9 @@ using System;
 namespace PlanetaryDiversity.PQSMods.Seed
 {
     /// <summary>
-    /// Tweaks the seed of the VoronoiCraters PQSMod
+    /// Tweaks the seed of the VertexHeightNoiseVertHeightCurve PQSMod
     /// </summary>
-    public class VoronoiCratersTweak : PQSModTweaker<PQSMod_VoronoiCraters>
+    public class VertexHeightNoiseVertHeightCurveTweak : PQSModTweaker<PQSMod_VertexHeightNoiseVertHeightCurve>
     {
         /// <summary>
         /// Returns the name of the config node that stores the configuration
@@ -16,16 +16,15 @@ namespace PlanetaryDiversity.PQSMods.Seed
         /// <summary>
         /// Returns the name of the config option that can be used to disable the tweak
         /// </summary>
-        public override String GetSetting() => "VoronoiCraters";
+        public override String GetSetting() => "VertexHeightNoiseVertHeightCurve";
 
         /// <summary>
         /// Changes the parameters of the PQSMod
         /// </summary>
-        public override Boolean Tweak(CelestialBody body, PQSMod_VoronoiCraters mod)
+        public override Boolean Tweak(CelestialBody body, PQSMod_VertexHeightNoiseVertHeightCurve mod)
         {
             // Get the game seed and apply it
-            mod.simplexSeed = GetRandom(HighLogic.CurrentGame.Seed);
-            mod.voronoiSeed = GetRandom(HighLogic.CurrentGame.Seed);
+            mod.seed = GetRandom(HighLogic.CurrentGame.Seed);
 
             // We changed something
             return true;

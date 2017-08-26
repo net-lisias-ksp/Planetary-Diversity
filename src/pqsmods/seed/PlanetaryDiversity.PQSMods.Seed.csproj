@@ -42,6 +42,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LandControlTweak.cs" />
+    <Compile Include="MeshScatterTweak.cs" />
+    <Compile Include="VertexColorNoiseRGBTweak.cs" />
+    <Compile Include="VertexColorNoiseTweak.cs" />
+    <Compile Include="VertexHeightNoiseHeightMapTweak.cs" />
+    <Compile Include="VertexHeightNoiseTweak.cs" />
+    <Compile Include="VertexHeightNoiseVertHeightCurve2Tweak.cs" />
+    <Compile Include="VertexHeightNoiseVertHeightCurve3Tweak.cs" />
+    <Compile Include="VertexHeightNoiseVertHeightCurveTweak.cs" />
+    <Compile Include="VertexHeightNoiseVertHeightTweak.cs" />
+    <Compile Include="VertexNoiseTweak.cs" />
+    <Compile Include="VertexPlanetTweak.cs" />
+    <Compile Include="VertexRidgedAltitudeCurveTweak.cs" />
+    <Compile Include="VertexSimplexColorRGBTweak.cs" />
+    <Compile Include="VertexSimplexHeightAbsoluteTweak.cs" />
+    <Compile Include="VertexSimplexHeightFlattenTweak.cs" />
+    <Compile Include="VertexSimplexHeightMapTweak.cs" />
+    <Compile Include="VertexSimplexHeightTweak.cs" />
+    <Compile Include="VertexSimplexMultiChromaticTweak.cs" />
+    <Compile Include="VertexSimplexNoiseColorTweak.cs" />
+    <Compile Include="VertexVoronoiTweak.cs" />
     <Compile Include="VoronoiCratersTweak.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

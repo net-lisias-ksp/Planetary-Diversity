@@ -126,6 +126,7 @@ namespace PlanetaryDiversity
                             if (tweaker.Tweak(body, mod))
                             {
                                 edited = true;
+                                mod.OnSetup();
                             }
                         }       
                         

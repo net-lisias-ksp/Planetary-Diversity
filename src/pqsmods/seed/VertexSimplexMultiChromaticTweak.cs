@@ -4,9 +4,9 @@ using System;
 namespace PlanetaryDiversity.PQSMods.Seed
 {
     /// <summary>
-    /// Tweaks the seed of the VoronoiCraters PQSMod
+    /// Tweaks the seed of the VertexSimplexMultiChromatic PQSMod
     /// </summary>
-    public class VoronoiCratersTweak : PQSModTweaker<PQSMod_VoronoiCraters>
+    public class VertexSimplexMultiChromaticTweak : PQSModTweaker<PQSMod_VertexSimplexMultiChromatic>
     {
         /// <summary>
         /// Returns the name of the config node that stores the configuration
@@ -16,16 +16,18 @@ namespace PlanetaryDiversity.PQSMods.Seed
         /// <summary>
         /// Returns the name of the config option that can be used to disable the tweak
         /// </summary>
-        public override String GetSetting() => "VoronoiCraters";
+        public override String GetSetting() => "VertexSimplexMultiChromatic";
 
         /// <summary>
         /// Changes the parameters of the PQSMod
         /// </summary>
-        public override Boolean Tweak(CelestialBody body, PQSMod_VoronoiCraters mod)
+        public override Boolean Tweak(CelestialBody body, PQSMod_VertexSimplexMultiChromatic mod)
         {
             // Get the game seed and apply it
-            mod.simplexSeed = GetRandom(HighLogic.CurrentGame.Seed);
-            mod.voronoiSeed = GetRandom(HighLogic.CurrentGame.Seed);
+            mod.alphaSeed = GetRandom(HighLogic.CurrentGame.Seed);
+            mod.redSeed = GetRandom(HighLogic.CurrentGame.Seed);
+            mod.greenSeed = GetRandom(HighLogic.CurrentGame.Seed);
+            mod.blueSeed = GetRandom(HighLogic.CurrentGame.Seed);
 
             // We changed something
             return true;
