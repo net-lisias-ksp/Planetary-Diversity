@@ -3,9 +3,9 @@
 namespace PlanetaryDiversity.API
 {
     /// <summary>
-    /// Allows interaction and tweaking of PQSMods
+    /// Allows interaction and tweaking of CelestialBodies
     /// </summary>
-    public interface IPQSModTweaker
+    public interface ICelestialBodyTweaker
     {
         /// <summary>
         /// Returns the name of the config node that stores the configuration
@@ -18,15 +18,15 @@ namespace PlanetaryDiversity.API
         String GetSetting();
 
         /// <summary>
-        /// Changes the parameters of the PQSMod
+        /// Changes the parameters of the CB
         /// </summary>
-        Boolean Tweak(CelestialBody body, PQSMod mod);
+        Boolean Tweak(CelestialBody body);
     }
 
     /// <summary>
     /// Base class for generic PQSMod access
     /// </summary>
-    public abstract class PQSModTweaker<T> : RandomProvider, IPQSModTweaker where T : PQSMod
+    public abstract class CelestialBodyTweaker : RandomProvider, ICelestialBodyTweaker
     {
         /// <summary>
         /// Returns the name of the config node that stores the configuration
@@ -41,18 +41,6 @@ namespace PlanetaryDiversity.API
         /// <summary>
         /// Changes the parameters of the PQSMod
         /// </summary>
-        Boolean IPQSModTweaker.Tweak(CelestialBody body, PQSMod mod)
-        {
-            if (mod is T)
-            {
-                return Tweak(body, (T)mod);
-            }
-            return false;
-        }
-        
-        /// <summary>
-        /// Changes the parameters of the PQSMod
-        /// </summary>
-        public abstract Boolean Tweak(CelestialBody body, T mod);
+        public abstract Boolean Tweak(CelestialBody body);
     }
 }

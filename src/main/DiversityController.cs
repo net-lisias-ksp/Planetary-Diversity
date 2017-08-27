@@ -27,6 +27,11 @@ namespace PlanetaryDiversity
         public List<IPQSModTweaker> PQSModTweakers { get; set; }
 
         /// <summary>
+        /// A list of all classes that tweak Celestial Bodies
+        /// </summary>
+        public List<ICelestialBodyTweaker> CBTweakers { get; set; }
+
+        /// <summary>
         /// The configurations for the tweaks
         /// </summary>
         public Dictionary<String, ConfigNode> ConfigCache { get; set; }
@@ -49,6 +54,7 @@ namespace PlanetaryDiversity
             Instance = this;
             DontDestroyOnLoad(this);
             PQSModTweakers = new List<IPQSModTweaker>();
+            CBTweakers = new List<ICelestialBodyTweaker>();
             ConfigCache = new Dictionary<String, ConfigNode>();
             scaledSpaceUpdate = new List<CelestialBody>();
         }
@@ -65,6 +71,19 @@ namespace PlanetaryDiversity
                 {
                     IPQSModTweaker tweaker = (IPQSModTweaker)Activator.CreateInstance(type);
                     PQSModTweakers.Add(tweaker);
+
+                    // Get the config
+                    String configNodeName = tweaker.GetConfig();
+                    if (!ConfigCache.ContainsKey(configNodeName))
+                    {
+                        ConfigNode config = GameDatabase.Instance.GetConfigs(configNodeName)[0].config;
+                        ConfigCache.Add(configNodeName, config);
+                    }
+                }
+                if (typeof(ICelestialBodyTweaker).IsAssignableFrom(type) && !type.IsAbstract)
+                {
+                    ICelestialBodyTweaker tweaker = (ICelestialBodyTweaker)Activator.CreateInstance(type);
+                    CBTweakers.Add(tweaker);
 
                     // Get the config
                     String configNodeName = tweaker.GetConfig();
@@ -150,6 +169,42 @@ namespace PlanetaryDiversity
                         {
                             scaledSpaceUpdate.Add(body);
                         }
+                    }
+                }
+
+                // Tweak Celestial Bodies
+                for (Int32 i = 0; i < CBTweakers.Count; i++)
+                {
+                    // Tweaker
+                    ICelestialBodyTweaker tweaker = CBTweakers[i];
+
+                    // Check the config
+                    ConfigNode config = ConfigCache[tweaker.GetConfig()];
+
+                    // Is the tweak group enabled?
+                    if (!config.HasValue("enabled"))
+                        continue;
+                    if (!Boolean.TryParse(config.GetValue("enabled"), out Boolean isEnabled) || !isEnabled)
+                        continue;
+
+                    // Is the tweak itself enabled?
+                    String setting = tweaker.GetSetting();
+                    if (setting != null)
+                    {
+                        if (!config.HasValue(setting))
+                            continue;
+                        if (!Boolean.TryParse(config.GetValue(setting), out isEnabled) || !isEnabled)
+                            continue;
+                    }
+
+                    // Tweak it!
+                    for (Int32 j = 0; j < PSystemManager.Instance.localBodies.Count; j++)
+                    {
+                        // Get the Body
+                        CelestialBody body = PSystemManager.Instance.localBodies[j];
+
+                        // Tweak it
+                        tweaker.Tweak(body);
                     }
                 }
             }
