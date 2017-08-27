@@ -454,13 +454,14 @@ namespace PlanetaryDiversity
                 {
                     Type onDemandType = Templates.Types.FirstOrDefault(t => t.Name == "ScaledSpaceDemand");
                     Component onDemand = body.scaledBody.GetComponent(onDemandType);
-                    if (onDemand == null)
-                        onDemand = body.scaledBody.AddComponent(onDemandType);
-                    FieldInfo texture = onDemandType.GetField("texture");
-                    FieldInfo normals = onDemandType.GetField("normals");
-                    String RelativeDirectory = TextureDirectory.Replace(KSPUtil.ApplicationRootPath, "../");
-                    texture.SetValue(onDemand, RelativeDirectory + "color.png");
-                    normals.SetValue(onDemand, RelativeDirectory + "normal.png");
+                    if (onDemand != null)
+                    {
+                        FieldInfo texture = onDemandType.GetField("texture");
+                        FieldInfo normals = onDemandType.GetField("normals");
+                        String RelativeDirectory = TextureDirectory.Replace(KSPUtil.ApplicationRootPath, "../");
+                        texture.SetValue(onDemand, RelativeDirectory + "color.png");
+                        normals.SetValue(onDemand, RelativeDirectory + "normal.png");
+                    }
                 }
                 percent = 0;
                 yield return null;
