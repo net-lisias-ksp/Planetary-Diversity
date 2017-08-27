@@ -7,21 +7,32 @@ using UnityEngine;
 namespace PlanetaryDiversity
 {
     [KSPAddon(KSPAddon.Startup.PSystemSpawn, true)]
-    public class MeshStealer : MonoBehaviour
+    public class Templates : MonoBehaviour
     {
         /// <summary>
         /// The scaled space mesh of jool
         /// </summary>
         public static Mesh ReferenceGeosphere { get; set; }
 
+        /// <summary>
+        /// Whether Kopernicus is installed and we have access to its OnDemand features
+        /// </summary>
+        public static Boolean IsKopernicusInstalled { get; set; }
+
+        /// <summary>
+        /// All loaded types
+        /// </summary>
+        public static Type[] Types { get; set; }
+
         void Start()
         {
             // If Kopernicus is loaded, we have to use it's ReferenceGeosphere, because we have no chance to get the unmodified version before it might get changed by Kopernicus
-            Type[] types = AssemblyLoader.loadedAssemblies.SelectMany(s => s.assembly.GetTypes()).ToArray();
-            Type templates = types.FirstOrDefault(t => t.Name == "Templates" && t.Namespace == "Kopernicus");
+            Types = AssemblyLoader.loadedAssemblies.SelectMany(s => s.assembly.GetTypes()).ToArray();
+            Type templates = Types.FirstOrDefault(t => t.Name == "Templates" && t.Namespace == "Kopernicus");
             if (templates != null)
             {
                 ReferenceGeosphere = templates.GetProperty("ReferenceGeosphere").GetValue(null, null) as Mesh;
+                IsKopernicusInstalled = true;
             }
             else
             {

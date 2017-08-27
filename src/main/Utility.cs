@@ -47,7 +47,7 @@ namespace PlanetaryDiversity
             double rMetersToScaledUnits = (float)(rScaledJool / body.Radius);
 
             // Generate a duplicate of the Jool mesh
-            Mesh mesh = DuplicateMesh(MeshStealer.ReferenceGeosphere);
+            Mesh mesh = DuplicateMesh(Templates.ReferenceGeosphere);
 
             // If this body has a PQS, we can create a more detailed object
             if (pqsVersion != null)
