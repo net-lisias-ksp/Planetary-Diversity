@@ -8,8 +8,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.API", "src\api\PlanetaryDiversity.API.csproj", "{CFAEC4BD-4974-451A-9C3C-08E90EA75A6C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PQSMods", "PQSMods", "{70428AEC-2261-491C-A6C4-A418435AD87E}"
-EndProject 
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.PQSMods.Seed", "src\pqsmods\seed\PlanetaryDiversity.PQSMods.Seed.csproj", "{8E05AA91-E0ED-414B-8BCB-C96F9D298930}" 
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.PQSMods.Seed", "src\pqsmods\seed\PlanetaryDiversity.PQSMods.Seed.csproj", "{8E05AA91-E0ED-414B-8BCB-C96F9D298930}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CelestialBodies", "CelestialBodies", "{E1266E82-3864-415D-AE0C-F1A727386042}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.CelestialBodies.Orbit", "src\celestialbodies\orbit\PlanetaryDiversity.CelestialBodies.Orbit.csproj", "{71A78686-BEA9-4206-A221-B99F247F2B4D}" 
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,11 +33,16 @@ Global
 		{8E05AA91-E0ED-414B-8BCB-C96F9D298930}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E05AA91-E0ED-414B-8BCB-C96F9D298930}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E05AA91-E0ED-414B-8BCB-C96F9D298930}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71A78686-BEA9-4206-A221-B99F247F2B4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71A78686-BEA9-4206-A221-B99F247F2B4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71A78686-BEA9-4206-A221-B99F247F2B4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71A78686-BEA9-4206-A221-B99F247F2B4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8E05AA91-E0ED-414B-8BCB-C96F9D298930} = {70428AEC-2261-491C-A6C4-A418435AD87E}
+		{71A78686-BEA9-4206-A221-B99F247F2B4D} = {E1266E82-3864-415D-AE0C-F1A727386042}
 	EndGlobalSection
 EndGlobal
