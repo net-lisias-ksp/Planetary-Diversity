@@ -79,15 +79,12 @@ namespace PlanetaryDiversity
         void OnGameStateCreated(Game game)
         {
             Seed = Seed?.Trim();
-            Debug.Log(Seed);
-            Debug.Log(game.Seed);
             if (String.IsNullOrEmpty(Seed))
                 return;
             if (Int32.TryParse(Seed, out Int32 iSeed))
                 game.Seed = iSeed;
             else
                 game.Seed = Seed.GetHashCode();
-            Debug.Log(game.Seed);
             Seed = null;
         }
     }
