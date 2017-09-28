@@ -31,7 +31,6 @@ namespace PlanetaryDiversity.CelestialBodies.GasPlanetColor
             // Tweak the color (this only has a chance of 50% to happen
             if (GetRandom(HighLogic.CurrentGame.Seed, 0, 100) < 50)
             {
-
                 // Get the material of the body
                 Material material = body.scaledBody.GetComponent<Renderer>().sharedMaterial;
 
@@ -42,6 +41,43 @@ namespace PlanetaryDiversity.CelestialBodies.GasPlanetColor
                 // Select a new color and apply it
                 Color newColor = GetRandomElement(HighLogic.CurrentGame.Seed, Utility.colors);
                 material.color = Utility.ReColor(newColor, average);
+
+                // Does this planet have an atmosphere?
+                if (!body.atmosphere)
+                    return true;
+
+                // Recolor the Atmosphere from Ground
+                Color afgColor = new Color(1 - newColor.r, 1 - newColor.g, 1 - newColor.b, 1 - newColor.a);
+                if (body.afg != null)
+                {
+                    body.afg.waveLength = afgColor;
+                    EventData<AtmosphereFromGround> afgEvent = GameEvents.FindEvent<EventData<AtmosphereFromGround>>("Kopernicus.RuntimeUtility.PatchAFG");
+                    if (afgEvent != null)
+                        afgEvent.Add((afg) => afg.waveLength = afgColor);
+                }
+                body.atmosphericAmbientColor = newColor;
+
+                // Recolor the atmosphere gradient
+                Gradient gradient = new Gradient();
+                gradient.Add(0.0f, newColor);
+                gradient.Add(0.6f, new Color(0.0549f, 0.0784f, 0.141f, 1f));
+                gradient.Add(1.0f, new Color(0.0196f, 0.0196f, 0.0196f, 1f));
+
+                // Generate a ramp from the gradient 
+                Texture2D ramp = new Texture2D(512, 1);
+                Color[] colors = ramp.GetPixels(0);
+                for (Int32 i = 0; i < colors.Length; i++)
+                {
+                    // Compute the position in the gradient 
+                    Single k = (Single)i / colors.Length;
+                    colors[i] = gradient.ColorAt(k);
+                }
+                ramp.SetPixels(colors, 0);
+                ramp.Apply(true, false);
+
+                // Set the color ramp 
+                Renderer renderer = body.scaledBody.GetComponent<Renderer>();
+                renderer.sharedMaterial.SetTexture("_rimColorRamp", ramp);
                 return true;
             }
             else

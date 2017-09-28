@@ -33,7 +33,6 @@ namespace PlanetaryDiversity.CelestialBodies.Orbit
             PSystemBody pSystemBody = Resources.FindObjectsOfTypeAll<PSystemBody>().FirstOrDefault(b => b.celestialBody.bodyName == body.transform.name);
 
             // Inclination
-            Debug.Log(body);
             if (GetRandom(HighLogic.CurrentGame.Seed, 0, 100) < 20)
             {
                 body.orbitDriver.orbit.inclination = GetRandomDouble(HighLogic.CurrentGame.Seed, -3, 3);
