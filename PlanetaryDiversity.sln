@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.Celestia
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.CelestialBodies.GasPlanetColor", "src\celestialbodies\gasplanetcolor\PlanetaryDiversity.CelestialBodies.GasPlanetColor.csproj", "{5D13838E-40E3-43C0-B9B2-29C843DB876A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.CelestialBodies.Atmosphere", "src\celestialbodies\atmosphere\PlanetaryDiversity.CelestialBodies.Atmosphere.csproj", "{66F689F5-6DCA-498C-BE2B-D91AAE2ABFF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{5D13838E-40E3-43C0-B9B2-29C843DB876A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D13838E-40E3-43C0-B9B2-29C843DB876A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D13838E-40E3-43C0-B9B2-29C843DB876A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66F689F5-6DCA-498C-BE2B-D91AAE2ABFF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66F689F5-6DCA-498C-BE2B-D91AAE2ABFF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66F689F5-6DCA-498C-BE2B-D91AAE2ABFF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66F689F5-6DCA-498C-BE2B-D91AAE2ABFF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,5 +57,6 @@ Global
 		{8E05AA91-E0ED-414B-8BCB-C96F9D298930} = {70428AEC-2261-491C-A6C4-A418435AD87E}
 		{71A78686-BEA9-4206-A221-B99F247F2B4D} = {E1266E82-3864-415D-AE0C-F1A727386042}
 		{5D13838E-40E3-43C0-B9B2-29C843DB876A} = {E1266E82-3864-415D-AE0C-F1A727386042}
+		{66F689F5-6DCA-498C-BE2B-D91AAE2ABFF6} = {E1266E82-3864-415D-AE0C-F1A727386042}
 	EndGlobalSection
 EndGlobal

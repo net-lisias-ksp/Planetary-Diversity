@@ -60,7 +60,3 @@ namespace PlanetaryDiversity.CelestialBodies.GasPlanetColor
         }
     }
 }
-    
-
-
-}
