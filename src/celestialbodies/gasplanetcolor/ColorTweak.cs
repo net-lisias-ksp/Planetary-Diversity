@@ -39,7 +39,7 @@ namespace PlanetaryDiversity.CelestialBodies.GasPlanetColor
                 Color average = Utility.GetAverageColor(diffuseMap);
 
                 // Select a new color and apply it
-                Color newColor = GetRandomElement(HighLogic.CurrentGame.Seed, Utility.colors);
+                Color newColor = Dark(GetRandomElement(HighLogic.CurrentGame.Seed, Utility.colors));
                 material.color = Utility.ReColor(newColor, average);
 
                 // Does this planet have an atmosphere?
@@ -56,28 +56,6 @@ namespace PlanetaryDiversity.CelestialBodies.GasPlanetColor
                         afgEvent.Add((afg) => afg.waveLength = afgColor);
                 }
                 body.atmosphericAmbientColor = newColor;
-
-                // Recolor the atmosphere gradient
-                Gradient gradient = new Gradient();
-                gradient.Add(0.0f, newColor);
-                gradient.Add(0.6f, new Color(0.0549f, 0.0784f, 0.141f, 1f));
-                gradient.Add(1.0f, new Color(0.0196f, 0.0196f, 0.0196f, 1f));
-
-                // Generate a ramp from the gradient 
-                Texture2D ramp = new Texture2D(512, 1);
-                Color[] colors = ramp.GetPixels(0);
-                for (Int32 i = 0; i < colors.Length; i++)
-                {
-                    // Compute the position in the gradient 
-                    Single k = (Single)i / colors.Length;
-                    colors[i] = gradient.ColorAt(k);
-                }
-                ramp.SetPixels(colors, 0);
-                ramp.Apply(true, false);
-
-                // Set the color ramp 
-                Renderer renderer = body.scaledBody.GetComponent<Renderer>();
-                renderer.sharedMaterial.SetTexture("_rimColorRamp", ramp);
                 return true;
             }
             else
@@ -95,5 +73,17 @@ namespace PlanetaryDiversity.CelestialBodies.GasPlanetColor
                              (Single)Math.Min(1, c.g * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.92, 1.05)),
                              (Single)Math.Min(1, c.b * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.92, 1.05)), c.a);
         }
+
+		/// <summary>
+		/// Makes a color darker
+		/// </summary>
+		public static Color Dark(Color c)
+		{
+			if ((c.r > 0.5) || (c.g > 0.5) || (c.b > 0.5))
+			{
+				c = c * new Color(0.5f, 0.5f, 0.5f);
+			}
+			return c;
+		}
     }
 }
