@@ -74,16 +74,16 @@ namespace PlanetaryDiversity.CelestialBodies.GasPlanetColor
                              (Single)Math.Min(1, c.b * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.92, 1.05)), c.a);
         }
 
-		/// <summary>
-		/// Makes a color darker
-		/// </summary>
-		public static Color Dark(Color c)
-		{
-			if ((c.r > 0.5) || (c.g > 0.5) || (c.b > 0.5))
-			{
-				c = c * new Color(0.5f, 0.5f, 0.5f);
-			}
-			return c;
-		}
+        /// <summary>
+        /// Makes a color darker
+        /// </summary>
+        public static Color Dark(Color c)
+        {
+            if ((c.r > 0.5) || (c.g > 0.5) || (c.b > 0.5))
+            {
+                c = c * new Color(0.5f, 0.5f, 0.5f);
+            }
+            return c;
+        }
     }
 }

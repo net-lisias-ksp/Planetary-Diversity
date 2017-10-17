@@ -42,7 +42,7 @@ namespace PlanetaryDiversity.CelestialBodies.Atmosphere
                 body.atmospherePressureSeaLevel *= mult;
             }
             if (body.atmosphereUseTemperatureCurve)
-			{
+            {
                 body.atmosphereTemperatureCurve = new FloatCurve(pSystemBody.celestialBody.atmosphereTemperatureCurve.Curve.keys.Select(k => new Keyframe(k.time, k.value * mult, k.inTangent, k.outTangent)).ToArray());
                 body.atmosphereTemperatureSeaLevel *= mult;
             }
