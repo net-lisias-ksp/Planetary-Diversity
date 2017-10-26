@@ -29,7 +29,7 @@ namespace PlanetaryDiversity
             Type templates = Types.FirstOrDefault(t => t.Name == "Templates" && t.Namespace == "Kopernicus");
             if (templates != null)
             {
-                ReferenceGeosphere = templates.GetProperty("ReferenceGeosphere").GetValue(null, null) as Mesh;
+                ReferenceGeosphere = templates.GetProperty("ReferenceGeosphere")?.GetValue(null, null) as Mesh;
                 IsKopernicusInstalled = true;
             }
             else

@@ -320,7 +320,7 @@ namespace PlanetaryDiversity
                     const Single rScaled = 1000.0f;
 
                     // Compute scale between Jool and this body
-                    float scale = (float)(body.Radius / rJool);
+                    Single scale = (Single)(body.Radius / rJool);
                     body.scaledBody.transform.localScale = new Vector3(scale, scale, scale);
 
                     // Apply the mesh to ScaledSpace
@@ -332,7 +332,7 @@ namespace PlanetaryDiversity
                     collider.radius = rScaled;
                     if (body.pqsController != null)
                     {
-                        body.scaledBody.gameObject.transform.localScale = Vector3.one * (float)(body.pqsController.radius / rJool);
+                        body.scaledBody.gameObject.transform.localScale = Vector3.one * (Single)(body.pqsController.radius / rJool);
                     }
                     yield return null;
 
@@ -385,12 +385,12 @@ namespace PlanetaryDiversity
                     yield return null;
 
                     // Loop through the pixels
-                    for (int y = 0; y < (pqs.mapFilesize / 2); y++)
+                    for (Int32 y = 0; y < (pqs.mapFilesize / 2); y++)
                     {
-                        for (int x = 0; x < pqs.mapFilesize; x++)
+                        for (Int32 x = 0; x < pqs.mapFilesize; x++)
                         {
                             // Update Message
-                            percent = ((double)((y * pqs.mapFilesize) + x) / ((pqs.mapFilesize / 2) * pqs.mapFilesize)) * 100;
+                            percent = ((Double)((y * pqs.mapFilesize) + x) / ((pqs.mapFilesize / 2) * pqs.mapFilesize)) * 100;
 
                             // Create a VertexBuildData
                             PQS.VertexBuildData data = new PQS.VertexBuildData
@@ -404,7 +404,7 @@ namespace PlanetaryDiversity
                             modOnVertexBuild(data);
 
                             // Adjust the height
-                            double height = (data.vertHeight - pqs.radius) * (1d / pqs.mapMaxHeight);
+                            Double height = (data.vertHeight - pqs.radius) * (1d / pqs.mapMaxHeight);
                             if (height < 0)
                                 height = 0;
                             else if (height > 1)

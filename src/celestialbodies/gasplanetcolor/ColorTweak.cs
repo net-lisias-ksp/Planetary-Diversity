@@ -52,32 +52,18 @@ namespace PlanetaryDiversity.CelestialBodies.GasPlanetColor
                 {
                     body.afg.waveLength = afgColor;
                     EventData<AtmosphereFromGround> afgEvent = GameEvents.FindEvent<EventData<AtmosphereFromGround>>("Kopernicus.RuntimeUtility.PatchAFG");
-                    if (afgEvent != null)
-                        afgEvent.Add((afg) => afg.waveLength = afgColor);
+                    afgEvent?.Add((afg) => afg.waveLength = afgColor);
                 }
                 body.atmosphericAmbientColor = newColor;
                 return true;
             }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Makes a color a bit different
-        /// </summary>
-        private Color AlterColor(Color c)
-        {
-            return new Color((Single)Math.Min(1, c.r * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.92, 1.05)),
-                             (Single)Math.Min(1, c.g * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.92, 1.05)),
-                             (Single)Math.Min(1, c.b * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.92, 1.05)), c.a);
+            return false;
         }
 
         /// <summary>
         /// Makes a color darker
         /// </summary>
-        public static Color Dark(Color c)
+        private static Color Dark(Color c)
         {
             if ((c.r > 0.5) || (c.g > 0.5) || (c.b > 0.5))
             {

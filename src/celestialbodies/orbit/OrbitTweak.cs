@@ -31,6 +31,8 @@ namespace PlanetaryDiversity.CelestialBodies.Orbit
 
             // Prefab
             PSystemBody pSystemBody = Resources.FindObjectsOfTypeAll<PSystemBody>().FirstOrDefault(b => b.celestialBody.bodyName == body.transform.name);
+            if (pSystemBody == null)
+                return false;
 
             // Inclination
             if (GetRandom(HighLogic.CurrentGame.Seed, 0, 100) < 20)
