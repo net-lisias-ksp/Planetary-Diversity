@@ -39,7 +39,7 @@ namespace PlanetaryDiversity.CelestialBodies.GasPlanetColor
                 Color average = Utility.GetAverageColor(diffuseMap);
 
                 // Select a new color and apply it
-                Color newColor = Dark(GetRandomElement(HighLogic.CurrentGame.Seed, Utility.colors));
+                Color newColor = Utility.Dark(GetRandomElement(HighLogic.CurrentGame.Seed, Utility.colors));
                 material.color = Utility.ReColor(newColor, average);
 
                 // Does this planet have an atmosphere?
@@ -58,18 +58,6 @@ namespace PlanetaryDiversity.CelestialBodies.GasPlanetColor
                 return true;
             }
             return false;
-        }
-
-        /// <summary>
-        /// Makes a color darker
-        /// </summary>
-        private static Color Dark(Color c)
-        {
-            if ((c.r > 0.5) || (c.g > 0.5) || (c.b > 0.5))
-            {
-                c = c * new Color(0.5f, 0.5f, 0.5f);
-            }
-            return c;
         }
     }
 }

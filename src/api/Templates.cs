@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace PlanetaryDiversity
+namespace PlanetaryDiversity.API
 {
     [KSPAddon(KSPAddon.Startup.PSystemSpawn, true)]
     public class Templates : MonoBehaviour
