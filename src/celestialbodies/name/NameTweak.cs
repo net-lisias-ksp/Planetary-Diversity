@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using PlanetaryDiversity.API;
+using UnityEngine;
 
 namespace PlanetaryDiversity.CelestialBodies.Name
 {
@@ -22,13 +24,24 @@ namespace PlanetaryDiversity.CelestialBodies.Name
         /// <summary>
         /// Whether a star uses systematic names
         /// </summary>
-        private static Dictionary<String, Boolean> usesSystematicName = new Dictionary<String, Boolean>();
+        private static Dictionary<String, Boolean> usesSystematicName;
 
         /// <summary>
         /// Changes the parameters of the body
         /// </summary>
         public override Boolean Tweak(CelestialBody body)
         {
+            // Create the dictionary
+            if (usesSystematicName == null)
+            {
+                usesSystematicName = new Dictionary<String, Boolean>();
+                foreach (CelestialBody b in PSystemManager.Instance.localBodies.Where(b =>
+                    b.scaledBody.GetComponentsInChildren<SunShaderController>().Length != 0))
+                {
+                    usesSystematicName.Add(b.transform.name, false);
+                }
+            }
+            
             // Are we a star?
             if (body.scaledBody.GetComponentsInChildren<SunShaderController>().Length != 0)
             {
