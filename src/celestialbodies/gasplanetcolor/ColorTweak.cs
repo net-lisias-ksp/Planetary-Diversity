@@ -27,6 +27,9 @@ namespace PlanetaryDiversity.CelestialBodies.GasPlanetColor
             // Is the body a GasPlanet?
             if (body.hasSolidSurface || body.scaledBody.GetComponentsInChildren<SunShaderController>().Length != 0)
                 return false;
+            // Is the body a barycenter?
+            if (Storage.Has(body, "barycenter"))
+                return false;
 
             // Tweak the color (this only has a chance of 50% to happen
             if (GetRandom(HighLogic.CurrentGame.Seed, 0, 100) < 50)
