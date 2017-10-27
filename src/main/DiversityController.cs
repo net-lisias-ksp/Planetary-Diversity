@@ -111,6 +111,9 @@ namespace PlanetaryDiversity
             // Are we loading a game?
             if (action.from == GameScenes.MAINMENU && action.to == GameScenes.SPACECENTER)
             {
+                // Get a sorted list of bodies
+                List<CelestialBody> bodies = Utility.GetSortedBodies();
+                
                 for (Int32 i = 0; i < PQSModTweakers.Count; i++)
                 {
                     // Tweaker
@@ -136,10 +139,10 @@ namespace PlanetaryDiversity
                     }
 
                     // Tweak it!
-                    for (Int32 j = 0; j < PSystemManager.Instance.localBodies.Count; j++)
+                    for (Int32 j = 0; j < bodies.Count; j++)
                     {
                         // Get the Body
-                        CelestialBody body = PSystemManager.Instance.localBodies[j];
+                        CelestialBody body = bodies[j];
 
                         // Is this body blacklisted?
                         if (bodyBlacklist != null)
@@ -198,10 +201,10 @@ namespace PlanetaryDiversity
                     }
 
                     // Tweak it!
-                    for (Int32 j = 0; j < PSystemManager.Instance.localBodies.Count; j++)
+                    for (Int32 j = 0; j < bodies.Count; j++)
                     {
                         // Get the Body
-                        CelestialBody body = PSystemManager.Instance.localBodies[j];
+                        CelestialBody body = bodies[j];
 
                         // Tweak it
                         tweaker.Tweak(body);
