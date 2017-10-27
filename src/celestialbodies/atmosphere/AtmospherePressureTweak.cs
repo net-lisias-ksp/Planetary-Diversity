@@ -8,7 +8,7 @@ namespace PlanetaryDiversity.CelestialBodies.Atmosphere
     /// <summary>
     /// Changes the pressure and temperature curves of the planets
     /// </summary>
-    public class AtmosphereTweak : CelestialBodyTweaker
+    public class AtmospherePressureTweak : CelestialBodyTweaker
     {
         /// <summary>
         /// Returns the name of the config node that stores the configuration
@@ -18,7 +18,7 @@ namespace PlanetaryDiversity.CelestialBodies.Atmosphere
         /// <summary>
         /// Returns the name of the config option that can be used to disable the tweak
         /// </summary>
-        public override String GetSetting() => "Atmosphere";
+        public override String GetSetting() => "AtmospherePressure";
 
         /// <summary>
         /// Changes the parameters of the body
