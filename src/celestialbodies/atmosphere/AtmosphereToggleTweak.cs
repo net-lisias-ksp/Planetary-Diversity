@@ -197,7 +197,6 @@ namespace PlanetaryDiversity.CelestialBodies.Atmosphere
             atmosphereFromGround.sunLight = Planetarium.fetch.Sun.gameObject;
             atmosphereFromGround.mainCamera = PlanetariumCamera.fetch.transform;
             atmosphereFromGround.waveLength = new Color(1 - altered.r, 1 - altered.g, 1 - altered.b, 0.5f);
-            atmosphereFromGround.UpdateAtmosphere(true);
 
             // Ambient Light
             body.atmosphericAmbientColor = altered;
