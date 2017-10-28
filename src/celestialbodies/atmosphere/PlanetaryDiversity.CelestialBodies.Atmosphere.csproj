@@ -45,13 +45,15 @@
     <Compile Include="AtmospherePressureTweak.cs" />
     <Compile Include="AtmosphereToggleTweak.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\CurveTemplates.cs" />
-    <Compile Include="Tools\Gradient.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\api\PlanetaryDiversity.API.csproj">
       <Project>{cfaec4bd-4974-451a-9c3c-08e90ea75a6c}</Project>
       <Name>PlanetaryDiversity.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\components\PlanetaryDiversity.Components.csproj">
+      <Project>{851d7bb6-6f14-45fe-a945-f7fd73902d94}</Project>
+      <Name>PlanetaryDiversity.Components</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

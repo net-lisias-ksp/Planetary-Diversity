@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEngine;
 using Object = System.Object;
 
-namespace PlanetaryDiversity.API
+namespace PlanetaryDiversity.Components
 {
     /// <summary>
     /// Extension methods for interfacing with Kopernicus Storage Component

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PlanetaryDiversity.CelestialBodies.Atmosphere.Tools
+namespace PlanetaryDiversity.Components
 {
     /// <summary>
     /// A storage class for stock temperature and pressure curves

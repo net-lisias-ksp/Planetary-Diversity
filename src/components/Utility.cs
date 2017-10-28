@@ -1,11 +1,11 @@
-﻿using System.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using UnityEngine;
 using System.Reflection;
+using UnityEngine;
 
-namespace PlanetaryDiversity.API
+namespace PlanetaryDiversity.Components
 {
     /// <summary>
     /// Generic utility functions
@@ -719,7 +719,8 @@ namespace PlanetaryDiversity.API
         }
 
         /// <summary>
-        /// An array of all XKCD colors
+        /// An array of al
+        /// l XKCD colors
         /// </summary>
         private static Color[] _colors;
 

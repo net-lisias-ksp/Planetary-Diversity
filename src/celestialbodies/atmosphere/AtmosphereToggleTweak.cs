@@ -1,9 +1,9 @@
 ﻿using PlanetaryDiversity.API;
-using PlanetaryDiversity.CelestialBodies.Atmosphere.Tools;
 using System;
 using System.Collections.Generic;
+using PlanetaryDiversity.Components;
 using UnityEngine;
-using Gradient = PlanetaryDiversity.CelestialBodies.Atmosphere.Tools.Gradient;
+using Gradient = PlanetaryDiversity.Components.Gradient;
 
 namespace PlanetaryDiversity.CelestialBodies.Atmosphere
 {
@@ -45,6 +45,10 @@ namespace PlanetaryDiversity.CelestialBodies.Atmosphere
             if (body.isHomeWorld)
                 return false;
             
+            // Does the body have an ocean? This could end badly
+            if (body.ocean)
+                return false;
+            
             // Process previous states
             if (toRestore.Contains(body))
             {
@@ -64,6 +68,13 @@ namespace PlanetaryDiversity.CelestialBodies.Atmosphere
 
                 // Atmosphere \o/
                 body.atmosphere = true;
+            
+                // Restore the old material
+                GameObject backupGameObject = body.scaledBody.GetChild("Backup");
+                backupGameObject.SetActive(false);
+                body.scaledBody.GetComponent<Renderer>().sharedMaterial =
+                    backupGameObject.GetComponent<MeshRenderer>().material;
+                UnityEngine.Object.Destroy(backupGameObject);
                 
                 // Update state
                 toRestore.Remove(body);
@@ -82,13 +93,17 @@ namespace PlanetaryDiversity.CelestialBodies.Atmosphere
                 foreach (MaterialSetDirection msd in msds)
                 {
                     UnityEngine.Object.Destroy(msd.gameObject);
-
-                    // Reset the material
-                    body.scaledBody.GetComponent<Renderer>().sharedMaterial.SetVector(msd.valueName, Vector4.zero);
                 }
 
                 // No Atmosphere :(
                 body.atmosphere = false;
+            
+                // Restore the old material
+                GameObject backupGameObject = body.scaledBody.GetChild("Backup");
+                backupGameObject.SetActive(false);
+                body.scaledBody.GetComponent<Renderer>().sharedMaterial =
+                    backupGameObject.GetComponent<MeshRenderer>().material;
+                UnityEngine.Object.Destroy(backupGameObject);
                 
                 // Update state
                 toDelete.Remove(body);
@@ -126,113 +141,148 @@ namespace PlanetaryDiversity.CelestialBodies.Atmosphere
                 foreach (MaterialSetDirection msd in msds)
                 {
                     msd.gameObject.SetActive(false);
-
-                    // Reset the material
-                    body.scaledBody.GetComponent<Renderer>().sharedMaterial.SetVector(msd.valueName, Vector4.zero);
                 }
 
                 // No Atmosphere :(
                 body.atmosphere = false;
+
+                // Get the material
+                Renderer renderer = body.scaledBody.GetComponent<Renderer>();
+                Material material = renderer.sharedMaterial;
+                Texture2D diffuseMap = (Texture2D) material.GetTexture("_MainTex");
+                Texture2D bumpMap = (Texture2D) material.GetTexture("_BumpMap");
                 
+                // Create a new scaled material
+                Material newMaterial = new Material(Shader.Find("Terrain/Scaled Planet (Simple)"));
+                newMaterial.SetTexture("_MainTex", diffuseMap);
+                newMaterial.SetTexture("_BumpMap", bumpMap);
+                newMaterial.SetFloat("_Shininess", material.GetFloat("_Shininess")); // TODO: Investigate
+                newMaterial.SetColor("_SpecColor", material.GetColor("_SpecColor")); // TODO: Investigate
+                
+                // Apply the material
+                renderer.sharedMaterial = newMaterial;
+
+                // Backup the old material
+                GameObject backupGameObject = new GameObject("Backup");
+                backupGameObject.SetActive(false);
+                backupGameObject.AddComponent<MeshRenderer>().material = material;
+                backupGameObject.transform.parent = body.scaledBody.transform;
+
                 // Update state
                 toRestore.Add(body);
 
                 // Return
                 return;
             }
-
-            // Add a new atmosphere, this could get funny
-            // We will just copy Laythe for the most parts
-            body.atmosphere = true;
-            body.atmosphereContainsOxygen = GetRandom(HighLogic.CurrentGame.Seed, 0, 99) < 10; // Oxygen is rare
-            body.atmosphereDepth = (body.Radius / 10) * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.8, 1.2);
-            body.atmosphereAdiabaticIndex = 1.39999997615814 * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.8, 1.2);
-            body.atmosphereGasMassLapseRate = 4.84741125702493 * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.8, 1.2);
-            body.atmosphereMolarMass = 0.0289644002914429 * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.8, 1.2);
-            Double multiplier = GetRandomDouble(HighLogic.CurrentGame.Seed, 0, 1);
-            body.atmospherePressureSeaLevel = (595 * multiplier) + 5;
-            body.atmosphereTemperatureSeaLevel = (270 * multiplier) + 240;
-            body.atmDensityASL = (6.9 * multiplier) + 0.1;
-            body.atmosphereTemperatureLapseRate = GetRandomDouble(HighLogic.CurrentGame.Seed, 0.004, 0.005);
-            body.atmospherePressureCurveIsNormalized = true;
-            body.atmosphereTemperatureCurveIsNormalized = true;
-            body.atmosphereUsePressureCurve = true;
-            body.atmosphereUseTemperatureCurve = true;
-
-            // Select a curve template
-            KeyValuePair<FloatCurve, FloatCurve> template =
-                GetRandomElement(HighLogic.CurrentGame.Seed, CurveTemplates.Atmospheres);
-            body.atmospherePressureCurve = template.Key;
-            body.atmosphereTemperatureCurve = template.Value;
-
-            // Now add the visuals
-            GameObject scaledVersion = body.scaledBody;
-
-            // Add the material light direction behavior
-            MaterialSetDirection materialLightDirection = scaledVersion.AddComponent<MaterialSetDirection>();
-            materialLightDirection.valueName = "_localLightDirection";
-
-            // Create the atmosphere shell game object
-            GameObject scaledAtmosphere = new GameObject("Atmosphere");
-            scaledAtmosphere.transform.parent = scaledVersion.transform;
-            scaledAtmosphere.transform.position = scaledVersion.transform.position;
-            scaledAtmosphere.transform.localPosition = Vector3.zero;
-            scaledAtmosphere.layer = 9;
-            MeshRenderer mrenderer = scaledAtmosphere.AddComponent<MeshRenderer>();
-            mrenderer.sharedMaterial = new Material(Shader.Find("AtmosphereFromGround"));
-            MeshFilter meshFilter = scaledAtmosphere.AddComponent<MeshFilter>();
-            meshFilter.sharedMesh = Templates.ReferenceGeosphere;
-            AtmosphereFromGround atmosphereFromGround = scaledAtmosphere.AddComponent<AtmosphereFromGround>();
-
-            // Get the average color of the current texture
-            Renderer renderer = body.scaledBody.GetComponent<Renderer>();
-            Material material = renderer.sharedMaterial;
-            Texture2D diffuseMap = Utility.CreateReadable((Texture2D) material.GetTexture("_MainTex"));
-            Texture2D bumpMap = (Texture2D) material.GetTexture("_BumpMap");
-            Color average = Utility.GetAverageColor(diffuseMap);
-            Color altered = AlterColor(average);
-
-            body.afg = atmosphereFromGround;
-            atmosphereFromGround.planet = body;
-            atmosphereFromGround.sunLight = Planetarium.fetch.Sun.gameObject;
-            atmosphereFromGround.mainCamera = PlanetariumCamera.fetch.transform;
-            atmosphereFromGround.waveLength = new Color(1 - altered.r, 1 - altered.g, 1 - altered.b, 0.5f);
-
-            // Ambient Light
-            body.atmosphericAmbientColor = altered;
-
-            // Scaled Material
-            Material newMaterial = new Material(Shader.Find("Terrain/Scaled Planet (RimAerial)"));
-            newMaterial.SetTexture("_MainTex", diffuseMap);
-            newMaterial.SetTexture("_BumpMap", bumpMap);
-            newMaterial.SetFloat("_Shininess", material.GetFloat("_Shininess")); // TODO: Investigate
-            newMaterial.SetColor("_SpecColor", material.GetColor("_SpecColor")); // TODO: Investigate
-            newMaterial.SetFloat("_rimPower", 2.06f);
-            newMaterial.SetFloat("_rimBlend", 0.3f);
-
-            // Generate the atmosphere rim texture
-            Gradient gradient = new Gradient();
-            gradient.Add(0f, AlterColor(Utility.GetAverageColor(diffuseMap)));
-            gradient.Add(0.6f, new Color(0.0549f, 0.0784f, 0.141f, 1f));
-            gradient.Add(1f, new Color(0.0196f, 0.0196f, 0.0196f, 1f));
-
-            // Generate the ramp from a gradient 
-            Texture2D ramp = new Texture2D(512, 1);
-            Color[] colors = ramp.GetPixels(0);
-            for (Int32 i = 0; i < colors.Length; i++)
+            else
             {
-                // Compute the position in the gradient 
-                Single k = (Single) i / colors.Length;
-                colors[i] = gradient.ColorAt(k);
-            }
-            ramp.SetPixels(colors, 0);
-            ramp.Apply(true, false);
 
-            // Set the color ramp 
-            newMaterial.SetTexture("_rimColorRamp", ramp);
-            
-            // Update state
-            toDelete.Add(body);
+                // Add a new atmosphere, this could get funny
+                // We will just copy Laythe for the most parts
+                body.atmosphere = true;
+                body.atmosphereContainsOxygen = GetRandom(HighLogic.CurrentGame.Seed, 0, 99) < 10; // Oxygen is rare
+                body.atmosphereDepth = (body.Radius / 10) * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.8, 1.2);
+                body.atmosphereAdiabaticIndex =
+                    1.39999997615814 * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.8, 1.2);
+                body.atmosphereGasMassLapseRate =
+                    4.84741125702493 * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.8, 1.2);
+                body.atmosphereMolarMass = 0.0289644002914429 * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.8, 1.2);
+                Double multiplier = GetRandomDouble(HighLogic.CurrentGame.Seed, 0, 1);
+                body.atmospherePressureSeaLevel = (595 * multiplier) + 5;
+                body.atmosphereTemperatureSeaLevel = (270 * multiplier) + 240;
+                body.atmDensityASL = (6.9 * multiplier) + 0.1;
+                body.atmosphereTemperatureLapseRate = GetRandomDouble(HighLogic.CurrentGame.Seed, 0.004, 0.005);
+                body.atmospherePressureCurveIsNormalized = true;
+                body.atmosphereTemperatureCurveIsNormalized = true;
+                body.atmosphereUsePressureCurve = true;
+                body.atmosphereUseTemperatureCurve = true;
+
+                // Select a curve template
+                KeyValuePair<FloatCurve, FloatCurve> template =
+                    GetRandomElement(HighLogic.CurrentGame.Seed, CurveTemplates.Atmospheres);
+                body.atmospherePressureCurve = template.Key;
+                body.atmosphereTemperatureCurve = template.Value;
+
+                // Now add the visuals
+                GameObject scaledVersion = body.scaledBody;
+
+                // Add the material light direction behavior
+                MaterialSetDirection materialLightDirection = scaledVersion.AddComponent<MaterialSetDirection>();
+                materialLightDirection.valueName = "_localLightDirection";
+
+                // Create the atmosphere shell game object
+                GameObject scaledAtmosphere = new GameObject("Atmosphere");
+                scaledAtmosphere.transform.parent = scaledVersion.transform;
+                scaledAtmosphere.transform.position = scaledVersion.transform.position;
+                scaledAtmosphere.transform.localPosition = Vector3.zero;
+                scaledAtmosphere.layer = 9;
+                MeshRenderer mrenderer = scaledAtmosphere.AddComponent<MeshRenderer>();
+                mrenderer.sharedMaterial = new Material(Shader.Find("AtmosphereFromGround"));
+                MeshFilter meshFilter = scaledAtmosphere.AddComponent<MeshFilter>();
+                meshFilter.sharedMesh = Templates.ReferenceGeosphere;
+                AtmosphereFromGround atmosphereFromGround = scaledAtmosphere.AddComponent<AtmosphereFromGround>();
+
+                // Get the average color of the current texture
+                Renderer renderer = body.scaledBody.GetComponent<Renderer>();
+                Material material = renderer.sharedMaterial;
+                Texture2D diffuseMap = Utility.CreateReadable((Texture2D) material.GetTexture("_MainTex"));
+                Texture2D bumpMap = (Texture2D) material.GetTexture("_BumpMap");
+                Color average = Utility.GetAverageColor(diffuseMap);
+                Color altered = AlterColor(average);
+
+                body.afg = atmosphereFromGround;
+                atmosphereFromGround.planet = body;
+                atmosphereFromGround.sunLight = Planetarium.fetch.Sun.gameObject;
+                atmosphereFromGround.mainCamera = PlanetariumCamera.fetch.transform;
+                atmosphereFromGround.waveLength = new Color(1 - altered.r, 1 - altered.g, 1 - altered.b, 0.5f);
+
+                // Ambient Light
+                body.atmosphericAmbientColor = altered;
+
+                // Scaled Material
+                Material newMaterial = new Material(Shader.Find("Terrain/Scaled Planet (RimAerial)"));
+                newMaterial.SetTexture("_MainTex", diffuseMap);
+                newMaterial.SetTexture("_BumpMap", bumpMap);
+                newMaterial.SetFloat("_Shininess", material.GetFloat("_Shininess")); // TODO: Investigate
+                newMaterial.SetColor("_SpecColor", material.GetColor("_SpecColor")); // TODO: Investigate
+                newMaterial.SetFloat("_rimPower", (Single)GetRandomDouble(HighLogic.CurrentGame.Seed, 3.8, 6.2));
+                newMaterial.SetFloat("_rimBlend", 1f);
+
+                // Generate the atmosphere rim texture
+                Gradient gradient = new Gradient();
+                gradient.Add(0f, altered);
+                gradient.Add(0.2f, new Color(0.0549f, 0.0784f, 0.141f, 1f));
+                gradient.Add(1f, new Color(0.0196f, 0.0196f, 0.0196f, 1f));
+
+                // Generate the ramp from a gradient 
+                Texture2D ramp = new Texture2D(512, 1);
+                Color[] colors = ramp.GetPixels(0);
+                for (Int32 i = 0; i < colors.Length; i++)
+                {
+                    // Compute the position in the gradient 
+                    Single k = (Single) i / colors.Length;
+                    colors[i] = gradient.ColorAt(k);
+                }
+                ramp.SetPixels(colors, 0);
+                ramp.Apply(true, false);
+                ramp.wrapMode = TextureWrapMode.Clamp;
+                ramp.mipMapBias = 0.0f;
+
+                // Set the color ramp 
+                newMaterial.SetTexture("_rimColorRamp", ramp);
+
+                // Apply the material
+                renderer.sharedMaterial = newMaterial;
+
+                // Backup the old material
+                GameObject backupGameObject = new GameObject("Backup");
+                backupGameObject.SetActive(false);
+                backupGameObject.AddComponent<MeshRenderer>().material = material;
+                backupGameObject.transform.parent = scaledVersion.transform;
+
+                // Update state
+                toDelete.Add(body);
+            }
         }
 
         /// <summary> 
