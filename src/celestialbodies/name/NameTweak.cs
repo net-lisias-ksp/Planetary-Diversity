@@ -80,9 +80,7 @@ namespace PlanetaryDiversity.CelestialBodies.Name
         /// </summary>
         private CelestialBody GetNextStar(CelestialBody body)
         {
-            if (body.orbitDriver == null)
-                return body;
-            if (body.orbit.referenceBody.scaledBody.GetComponentsInChildren<SunShaderController>().Length != 0)
+            if (body.orbitDriver == null || body.scaledBody.GetComponentsInChildren<SunShaderController>().Length != 0)
                 return body;
             return GetNextStar(body.orbit.referenceBody);
         }
