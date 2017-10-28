@@ -244,58 +244,38 @@ namespace PlanetaryDiversity.CelestialBodies.Name
             "osser"
         };
 
-        public static readonly String[] romanNumbers =
+        public static readonly String[] romanNumerals =
         {
-            "I", 
-            "II", 
-            "III", 
-            "IV", 
-            "V", 
-            "VI", 
-            "VII", 
-            "VIII", 
+            "M", 
+            "CM", 
+            "D", 
+            "CD", 
+            "C", 
+            "XC", 
+            "L", 
+            "XL", 
+            "X", 
             "IX", 
-            "X",
-            "XI", 
-            "XII", 
-            "XIII", 
-            "XIV", 
-            "XV", 
-            "XVI", 
-            "XVII", 
-            "XVIII", 
-            "XIX", 
-            "XX",
-            "XXI", 
-            "XXII", 
-            "XXIII", 
-            "XXIV", 
-            "XXV", 
-            "XXVI", 
-            "XXVII", 
-            "XXVIII", 
-            "XXIX", 
-            "XXX",
-            "XXXI", 
-            "XXXII", 
-            "XXXIII", 
-            "XXXIV", 
-            "XXXV", 
-            "XXXVI", 
-            "XXXVII", 
-            "XXXVIII", 
-            "XXXIX", 
-            "XL",
-            "XLI", 
-            "XLII", 
-            "XLIII", 
-            "XLIV", 
-            "XLV", 
-            "XLVI", 
-            "XLVII", 
-            "XLVIII", 
-            "XLIX", 
-            "L"
+            "V", 
+            "IV", 
+            "I"
         };
+        
+		public static Int32[] numerals =
+		{
+		    1000, 
+		    900, 
+		    500, 
+		    400, 
+		    100, 
+		    90, 
+		    50, 
+		    40, 
+			10, 
+			9, 
+			5, 
+			4, 
+			1
+		};
     }
 }

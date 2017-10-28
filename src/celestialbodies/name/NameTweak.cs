@@ -234,9 +234,29 @@ namespace PlanetaryDiversity.CelestialBodies.Name
             const String moons = "abcdefghijklmnopqrstuvwxyz";
 
             if (isOrbitingStar)
-                return parentname + " " + Planetnames.romanNumbers[position];
+                return parentname + " " + ToRomanNumeral(position + 1);
             else
                 return parentname + moons[position];
         }
+
+        /// <summary>
+        /// Converts an integer into a roman numeral
+        /// </summary>
+		public static String ToRomanNumeral(Int32 number)
+		{
+			String romanNumeral = String.Empty;
+			while (number > 0)
+			{
+				// find biggest numeral that is less than equal to number
+				Int32 index = Planetnames.numerals.ToList().FindIndex(x => x <= number);
+			    
+				// subtract it's value from your number
+				number -= Planetnames.numerals[index];
+			    
+				// tack it onto the end of your roman numeral
+				romanNumeral += Planetnames.romanNumerals[index];
+			}
+			return romanNumeral;
+		}
     }
 }
