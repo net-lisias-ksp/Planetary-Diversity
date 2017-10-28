@@ -113,49 +113,49 @@ namespace PlanetaryDiversity
             {
                 // Get a sorted list of bodies
                 List<CelestialBody> bodies = Utility.GetSortedBodies();
-                
-                for (Int32 i = 0; i < PQSModTweakers.Count; i++)
+
+                // Tweak it!
+                for (Int32 j = 0; j < bodies.Count; j++)
                 {
-                    // Tweaker
-                    IPQSModTweaker tweaker = PQSModTweakers[i];
+                    // Get the Body
+                    CelestialBody body = bodies[j];
 
-                    // Check the config
-                    ConfigNode config = ConfigCache[tweaker.GetConfig()];
-
-                    // Is the tweak group enabled?
-                    if (!config.HasValue("enabled"))
-                        continue;
-                    if (!Boolean.TryParse(config.GetValue("enabled"), out Boolean isEnabled) || !isEnabled)
-                        continue;
-
-                    // Is the tweak itself enabled?
-                    String setting = tweaker.GetSetting();
-                    if (setting != null)
+                    // Is this body blacklisted?
+                    if (bodyBlacklist != null)
                     {
-                        if (!config.HasValue(setting))
-                            continue;
-                        if (!Boolean.TryParse(config.GetValue(setting), out isEnabled) || !isEnabled)
+                        if (bodyBlacklist.GetValues("blacklist").Any(b => body.bodyName == b))
                             continue;
                     }
 
-                    // Tweak it!
-                    for (Int32 j = 0; j < bodies.Count; j++)
-                    {
-                        // Get the Body
-                        CelestialBody body = bodies[j];
+                    // Get the PQSMods
+                    PQSMod[] mods = body.GetComponentsInChildren<PQSMod>(true);
 
-                        // Is this body blacklisted?
-                        if (bodyBlacklist != null)
+                    // Was the body edited?
+                    Boolean edited = false;
+
+                    for (Int32 i = 0; i < PQSModTweakers.Count; i++)
+                    {
+                        // Tweaker
+                        IPQSModTweaker tweaker = PQSModTweakers[i];
+
+                        // Check the config
+                        ConfigNode config = ConfigCache[tweaker.GetConfig()];
+
+                        // Is the tweak group enabled?
+                        if (!config.HasValue("enabled"))
+                            continue;
+                        if (!Boolean.TryParse(config.GetValue("enabled"), out Boolean isEnabled) || !isEnabled)
+                            continue;
+
+                        // Is the tweak itself enabled?
+                        String setting = tweaker.GetSetting();
+                        if (setting != null)
                         {
-                            if (bodyBlacklist.GetValues("blacklist").Any(b => body.bodyName == b))
+                            if (!config.HasValue(setting))
+                                continue;
+                            if (!Boolean.TryParse(config.GetValue(setting), out isEnabled) || !isEnabled)
                                 continue;
                         }
-
-                        // Get the PQSMods
-                        PQSMod[] mods = body.GetComponentsInChildren<PQSMod>(true);
-
-                        // Was the body edited?
-                        Boolean edited = false;
 
                         // Tweak them
                         foreach (PQSMod mod in mods)
@@ -165,13 +165,13 @@ namespace PlanetaryDiversity
                                 edited = true;
                                 mod.OnSetup();
                             }
-                        }       
-                        
-                        // The body was edited, we should update it's scaled space
-                        if (edited && !scaledSpaceUpdate.Any(b => b.name == body.name))
-                        {
-                            scaledSpaceUpdate.Add(body);
                         }
+                    }
+
+                    // The body was edited, we should update it's scaled space
+                    if (edited && !scaledSpaceUpdate.Any(b => b.name == body.name))
+                    {
+                        scaledSpaceUpdate.Add(body);
                     }
                 }
 
@@ -218,11 +218,13 @@ namespace PlanetaryDiversity
                 if (PSystemManager.Instance?.localBodies == null)
                     return;
 
+                // Reset the random
+                RandomProvider.Reset();
+
                 // Kill the PQS so it definitly rebuilds when we load a game
                 for (Int32 i = 0; i < PSystemManager.Instance.localBodies.Count; i++)
                 {
                     CelestialBody body = PSystemManager.Instance.localBodies[i];
-                    body.pqsController?.ClearCache();
                     body.pqsController?.ResetSphere();
                 }
             }
@@ -257,7 +259,7 @@ namespace PlanetaryDiversity
             GUILayout.Window("PlanetaryDiversity".GetHashCode(), new Rect(100, 100, 300, 200), (id) => {
                 GUILayout.BeginVertical();
                 GUILayout.BeginHorizontal();
-                GUILayout.Label(Localizer.Format("#LOC_PlanetaryDiversity_GUI_Label"));
+                GUILayout.Label(Localizer.Format("#LOC_PlanetaryDiversity_GUI_Label", index, scaledSpaceUpdate.Count));
                 GUILayout.EndHorizontal();
                 GUILayout.BeginScrollView(new Vector2(0, Single.MaxValue));
                 GUIStyle green = new GUIStyle(GUI.skin.label);
@@ -291,6 +293,7 @@ namespace PlanetaryDiversity
 
         private Double percent;
         private String current;
+        private Int32 index;
 
         /// <summary>
         /// A coroutine that updates the scaled space in the background
@@ -298,51 +301,18 @@ namespace PlanetaryDiversity
         private IEnumerator UpdateScaledSpace()
         {
             // Path to the cache
-            String CacheDirectory = KSPUtil.ApplicationRootPath + "saves/" + HighLogic.SaveFolder + "/diversity/";
+            String CacheDirectory = "saves/" + HighLogic.SaveFolder + "/diversity/";
 
             for (Int32 a = 0; a < scaledSpaceUpdate.Count; a++)
             {
                 // Get the body
                 CelestialBody body = scaledSpaceUpdate[a];
                 current = body.bodyDisplayName;
+                index = a + 1;
 
                 // Mesh
                 Directory.CreateDirectory(CacheDirectory + "mesh");
-                String CacheFile = CacheDirectory + "mesh/" + body.bodyName + ".bin";
-                if (File.Exists(CacheFile))
-                {
-                    Mesh scaledMesh = Utility.DeserializeMesh(CacheFile);
-                    Utility.RecalculateTangents(scaledMesh);
-                    body.scaledBody.GetComponent<MeshFilter>().sharedMesh = scaledMesh;
-                }
-
-                // Otherwise we have to generate the mesh
-                else
-                {
-                    const Double rJool = 6000000.0;
-                    const Single rScaled = 1000.0f;
-
-                    // Compute scale between Jool and this body
-                    Single scale = (Single)(body.Radius / rJool);
-                    body.scaledBody.transform.localScale = new Vector3(scale, scale, scale);
-
-                    // Apply the mesh to ScaledSpace
-                    MeshFilter meshfilter = body.scaledBody.GetComponent<MeshFilter>();
-                    SphereCollider collider = body.scaledBody.GetComponent<SphereCollider>();
-                    meshfilter.sharedMesh = Utility.ComputeScaledSpaceMesh(body, body.pqsController);
-                    yield return null;
-                    Utility.RecalculateTangents(meshfilter.sharedMesh);
-                    collider.radius = rScaled;
-                    if (body.pqsController != null)
-                    {
-                        body.scaledBody.gameObject.transform.localScale = Vector3.one * (Single)(body.pqsController.radius / rJool);
-                    }
-                    yield return null;
-
-                    // Serialize
-                    Utility.SerializeMesh(meshfilter.sharedMesh, CacheFile);
-                    yield return null;
-                }
+                Utility.UpdateScaledMesh(body.scaledBody, body.pqsController, body, CacheDirectory + "mesh/");
 
                 // Textures
                 Directory.CreateDirectory(CacheDirectory + "textures/" + body.bodyName);

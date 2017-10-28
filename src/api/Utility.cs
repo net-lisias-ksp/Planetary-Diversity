@@ -39,6 +39,47 @@ namespace PlanetaryDiversity.API
             return null;
         }
 
+        public static void UpdateScaledMesh(GameObject scaledVersion, PQS pqs, CelestialBody body, String path)
+        {
+            const Double rJool = 6000000.0;
+            const Single rScaled = 1000.0f;
+
+            // Compute scale between Jool and this body
+            Single scale = (Single)(body.Radius / rJool);
+            scaledVersion.transform.localScale = new Vector3(scale, scale, scale);
+
+            Mesh scaledMesh;
+            // Attempt to load a cached version of the scale space
+            String CacheDirectory = KSPUtil.ApplicationRootPath + path;
+            String CacheFile = CacheDirectory + "/" + body.name + ".bin";
+            Directory.CreateDirectory(CacheDirectory);
+
+            if (File.Exists(CacheFile))
+            {
+                scaledMesh = DeserializeMesh(CacheFile);
+                RecalculateTangents(scaledMesh);
+                scaledVersion.GetComponent<MeshFilter>().sharedMesh = scaledMesh;
+            }
+
+            // Otherwise we have to generate the mesh
+            else
+            {
+                scaledMesh = ComputeScaledSpaceMesh(body, pqs);
+                RecalculateTangents(scaledMesh);
+                scaledVersion.GetComponent<MeshFilter>().sharedMesh = scaledMesh;
+                SerializeMesh(scaledMesh, CacheFile);
+            }
+
+            // Apply mesh to the body
+            SphereCollider collider = scaledVersion.GetComponent<SphereCollider>();
+            if (collider != null) collider.radius = rScaled;
+            if (pqs != null && scaledVersion.gameObject != null && scaledVersion.gameObject.transform != null)
+            {
+                scaledVersion.gameObject.transform.localScale = Vector3.one * (Single)(pqs.radius / rJool);
+            }
+        }
+
+
         // Generate the scaled space mesh using PQS (all results use scale of 1)
         public static Mesh ComputeScaledSpaceMesh(CelestialBody body, PQS pqsVersion)
         {
@@ -590,7 +631,7 @@ namespace PlanetaryDiversity.API
                 {
                     Debug.Log("[PlaneraryDiversity]: failed to load " + path);
                 }
-                map.name = path.Remove(0, (KSPUtil.ApplicationRootPath + "GameData/").Length);
+                map.name = path;
             }
             else
                 Debug.Log("[PlaneraryDiversity]: texture does not exist! " + path);
@@ -716,7 +757,9 @@ namespace PlanetaryDiversity.API
         public static List<CelestialBody> GetSortedBodies()
         {
             List<CelestialBody> bodies = new List<CelestialBody>() { PSystemManager.Instance.localBodies[0] };
-            DoRecursive(PSystemManager.Instance.localBodies[0], b => b.orbitingBodies.OrderBy(b_ => b_.orbit?.semiMajorAxis), b => bodies.Add(b));
+            PSystemBody root = PSystemManager.Instance.systemPrefab.rootBody;
+            DoRecursive(PSystemManager.Instance.localBodies.First(b => b.transform.name == root.name), b => b.orbitingBodies != null && b.orbitingBodies.Any() ? 
+                        b.orbitingBodies.OrderBy(b_ => b_.orbit?.semiMajorAxis).ToList() : new List<CelestialBody>(), b => bodies.Add(b));
             return bodies;
         }
     }

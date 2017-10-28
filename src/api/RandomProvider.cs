@@ -80,5 +80,13 @@ namespace PlanetaryDiversity.API
             }
             return list;
         }
+
+        /// <summary>
+        /// Reset the number generator to it's original state.
+        /// </summary>
+        public static void Reset() 
+        {
+            _random = null;
+        }
     }
 }
