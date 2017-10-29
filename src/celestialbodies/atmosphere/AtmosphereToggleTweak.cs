@@ -170,9 +170,6 @@ namespace PlanetaryDiversity.CelestialBodies.Atmosphere
 
                 // Update state
                 toRestore.Add(body);
-
-                // Return
-                return;
             }
             else
             {
@@ -229,12 +226,13 @@ namespace PlanetaryDiversity.CelestialBodies.Atmosphere
                 Texture2D bumpMap = (Texture2D) material.GetTexture("_BumpMap");
                 Color average = Utility.GetAverageColor(diffuseMap);
                 Color altered = AlterColor(average);
+                Color darkAltered = Utility.Dark(altered);
 
                 body.afg = atmosphereFromGround;
                 atmosphereFromGround.planet = body;
                 atmosphereFromGround.sunLight = Planetarium.fetch.Sun.gameObject;
                 atmosphereFromGround.mainCamera = PlanetariumCamera.fetch.transform;
-                atmosphereFromGround.waveLength = new Color(1 - altered.r, 1 - altered.g, 1 - altered.b, 0.5f);
+                atmosphereFromGround.waveLength = new Color(1 - darkAltered.r, 1 - darkAltered.g, 1 - darkAltered.b, 0.5f);
 
                 // Ambient Light
                 body.atmosphericAmbientColor = altered;
@@ -245,7 +243,7 @@ namespace PlanetaryDiversity.CelestialBodies.Atmosphere
                 newMaterial.SetTexture("_BumpMap", bumpMap);
                 newMaterial.SetFloat("_Shininess", material.GetFloat("_Shininess")); // TODO: Investigate
                 newMaterial.SetColor("_SpecColor", material.GetColor("_SpecColor")); // TODO: Investigate
-                newMaterial.SetFloat("_rimPower", (Single)GetRandomDouble(HighLogic.CurrentGame.Seed, 3.8, 6.2));
+                newMaterial.SetFloat("_rimPower", (Single)GetRandomDouble(HighLogic.CurrentGame.Seed, 3.8, 5));
                 newMaterial.SetFloat("_rimBlend", 1f);
 
                 // Generate the atmosphere rim texture
