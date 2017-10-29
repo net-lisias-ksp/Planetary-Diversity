@@ -719,8 +719,7 @@ namespace PlanetaryDiversity.Components
         }
 
         /// <summary>
-        /// An array of al
-        /// l XKCD colors
+        /// An array of all XKCD colors
         /// </summary>
         private static Color[] _colors;
 
