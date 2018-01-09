@@ -178,7 +178,7 @@ namespace PlanetaryDiversity.CelestialBodies.Atmosphere
                 // We will just copy Laythe for the most parts
                 body.atmosphere = true;
                 body.atmosphereContainsOxygen = GetRandom(HighLogic.CurrentGame.Seed, 0, 99) < 10; // Oxygen is rare
-                body.atmosphereDepth = (body.Radius / 10) * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.8, 1.2);
+                body.atmosphereDepth = (body.pqsController.radiusMax / 10) * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.8, 1.2);
                 body.atmosphereAdiabaticIndex =
                     1.39999997615814 * GetRandomDouble(HighLogic.CurrentGame.Seed, 0.8, 1.2);
                 body.atmosphereGasMassLapseRate =
