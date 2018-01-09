@@ -757,8 +757,7 @@ namespace PlanetaryDiversity.Components
         public static List<CelestialBody> GetSortedBodies()
         {
             List<CelestialBody> bodies = new List<CelestialBody>() { PSystemManager.Instance.localBodies[0] };
-            PSystemBody root = PSystemManager.Instance.systemPrefab.rootBody;
-            DoRecursive(PSystemManager.Instance.localBodies.First(b => b.transform.name == root.name), b => b.orbitingBodies != null && b.orbitingBodies.Any() ? 
+            DoRecursive(PSystemManager.Instance.localBodies[0], b => b.orbitingBodies != null && b.orbitingBodies.Any() ? 
                         b.orbitingBodies.OrderBy(b_ => b_.orbit?.semiMajorAxis).ToList() : new List<CelestialBody>(), b => bodies.Add(b));
             return bodies;
         }
