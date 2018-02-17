@@ -751,7 +751,7 @@ namespace PlanetaryDiversity.Components
         // Runs a function recursively
         public static void DoRecursive<T>(T start, Func<T, IEnumerable<T>> selector, Action<T> action)
         {
-            DoRecursive<T, object>(start, selector, tout => false, tin => { action(tin); return null; });
+            DoRecursive<T, System.Object>(start, selector, tout => false, tin => { action(tin); return null; });
         }
 
         public static List<CelestialBody> GetSortedBodies()

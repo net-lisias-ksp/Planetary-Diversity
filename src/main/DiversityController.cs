@@ -33,6 +33,11 @@ namespace PlanetaryDiversity
         public List<ICelestialBodyTweaker> CBTweakers { get; set; }
 
         /// <summary>
+        /// A list of all classes that tweak PQS spheres
+        /// </summary>
+        public List<IPQSTweaker> PQSTweakers { get; set; }
+
+        /// <summary>
         /// The configurations for the tweaks
         /// </summary>
         public Dictionary<String, ConfigNode> ConfigCache { get; set; }
@@ -56,6 +61,7 @@ namespace PlanetaryDiversity
             DontDestroyOnLoad(this);
             PQSModTweakers = new List<IPQSModTweaker>();
             CBTweakers = new List<ICelestialBodyTweaker>();
+            PQSTweakers = new List<IPQSTweaker>();
             ConfigCache = new Dictionary<String, ConfigNode>();
             scaledSpaceUpdate = new List<CelestialBody>();
         }
@@ -85,6 +91,19 @@ namespace PlanetaryDiversity
                 {
                     ICelestialBodyTweaker tweaker = (ICelestialBodyTweaker)Activator.CreateInstance(type);
                     CBTweakers.Add(tweaker);
+
+                    // Get the config
+                    String configNodeName = tweaker.GetConfig();
+                    if (!ConfigCache.ContainsKey(configNodeName))
+                    {
+                        ConfigNode config = GameDatabase.Instance.GetConfigs(configNodeName)[0].config;
+                        ConfigCache.Add(configNodeName, config);
+                    }
+                }
+                if (typeof(IPQSTweaker).IsAssignableFrom(type) && !type.IsAbstract)
+                {
+                    IPQSTweaker tweaker = (IPQSTweaker)Activator.CreateInstance(type);
+                    PQSTweakers.Add(tweaker);
 
                     // Get the config
                     String configNodeName = tweaker.GetConfig();
@@ -128,11 +147,43 @@ namespace PlanetaryDiversity
                             continue;
                     }
 
-                    // Get the PQSMods
-                    PQSMod[] mods = body.GetComponentsInChildren<PQSMod>(true);
-
                     // Was the body edited?
                     Boolean edited = false;
+                    
+                    // Tweak the PQS itself
+                    for (Int32 i = 0; i < PQSTweakers.Count; i++)
+                    {
+                        // Tweaker
+                        IPQSTweaker tweaker = PQSTweakers[i];
+
+                        // Check the config
+                        ConfigNode config = ConfigCache[tweaker.GetConfig()];
+
+                        // Is the tweak group enabled?
+                        if (!config.HasValue("enabled"))
+                            continue;
+                        if (!Boolean.TryParse(config.GetValue("enabled"), out Boolean isEnabled) || !isEnabled)
+                            continue;
+
+                        // Is the tweak itself enabled?
+                        String setting = tweaker.GetSetting();
+                        if (setting != null)
+                        {
+                            if (!config.HasValue(setting))
+                                continue;
+                            if (!Boolean.TryParse(config.GetValue(setting), out isEnabled) || !isEnabled)
+                                continue;
+                        }
+
+                        // Tweak it
+                        if (tweaker.Tweak(body, body.pqsController))
+                        {
+                            edited = true;
+                        }
+                    }
+
+                    // Get the PQSMods
+                    PQSMod[] mods = body.GetComponentsInChildren<PQSMod>(true);
 
                     for (Int32 i = 0; i < PQSModTweakers.Count; i++)
                     {
@@ -170,7 +221,7 @@ namespace PlanetaryDiversity
                     }
 
                     // The body was edited, we should update it's scaled space
-                    if (edited && !scaledSpaceUpdate.Any(b => b.name == body.name))
+                    if (edited && scaledSpaceUpdate.All(b => b.name != body.name))
                     {
                         scaledSpaceUpdate.Add(body);
                     }
@@ -426,7 +477,7 @@ namespace PlanetaryDiversity
                 // OnDemand
                 if (Templates.IsKopernicusInstalled)
                 {
-                    Type onDemandType = Templates.Types.FirstOrDefault(t => t.Name == "ScaledSpaceDemand");
+                    Type onDemandType = Templates.Types.FirstOrDefault(t => t.Name == "ScaledSpaceOnDemand");
                     Component onDemand = body.scaledBody.GetComponent(onDemandType);
                     if (onDemand != null)
                     {
