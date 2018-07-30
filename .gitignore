@@ -2,3 +2,8 @@
 packages
 Source/**/obj/
 Source/**/bin/
+GameData/net.lisias.ksp/*.version
+bin
+GameData/net.lisias.ksp/PlanetaryDiversity/Plugins/*.dll
+GameData/net.lisias.ksp/PlanetaryDiversity/*.md
+GameData/net.lisias.ksp/PlanetaryDiversity/LICENSE

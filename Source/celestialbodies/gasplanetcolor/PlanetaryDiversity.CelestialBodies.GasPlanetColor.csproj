@@ -6,6 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5D13838E-40E3-43C0-B9B2-29C843DB876A}</ProjectGuid>
     <OutputType>Library</OutputType>
+    <OutputPath>../../../bin/Debug</OutputPath>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PlanetaryDiversity.CelestialBodies.GasPlanetColor</RootNamespace>
     <AssemblyName>PlanetaryDiversity.CelestialBodies.GasPlanetColor</AssemblyName>
@@ -16,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\build\GameData\PlanetaryDiversity\Plugins\</OutputPath>
+    <OutputPath>../../../bin/Debug</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build\GameData\PlanetaryDiversity\Plugins\</OutputPath>
+    <OutputPath>../../../bin/Release</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

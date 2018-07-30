@@ -6,6 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{66F689F5-6DCA-498C-BE2B-D91AAE2ABFF6}</ProjectGuid>
     <OutputType>Library</OutputType>
+    <OutputPath>../../../bin/Debug/</OutputPath>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PlanetaryDiversity.CelestialBodies.Atmosphere</RootNamespace>
     <AssemblyName>PlanetaryDiversity.CelestialBodies.Atmosphere</AssemblyName>
@@ -16,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\build\GameData\PlanetaryDiversity\Plugins\</OutputPath>
+    <OutputPath>../../../bin/Debug/</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\build\GameData\PlanetaryDiversity\Plugins\</OutputPath>
+    <OutputPath>../../../bin/Release/</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

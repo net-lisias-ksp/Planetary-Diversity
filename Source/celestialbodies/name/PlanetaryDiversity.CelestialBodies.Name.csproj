@@ -7,6 +7,7 @@
     <ProjectGuid>{26F6B438-65DC-4869-B6E4-96A4EA69CF65}</ProjectGuid>
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
+    <OutputPath>../../../bin/Debug</OutputPath>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PlanetaryDiversity.CelestialBodies.Name</RootNamespace>
     <AssemblyName>PlanetaryDiversity.CelestialBodies.Name</AssemblyName>
@@ -18,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>../../../build/GameData/PlanetaryDiversity/Plugins/</OutputPath>
+    <OutputPath>../../../bin/Debug</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,7 +28,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>../../../build/GameData/PlanetaryDiversity/Plugins/</OutputPath>
+    <OutputPath>../../../bin/Release<OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

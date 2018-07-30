@@ -6,6 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{EAEAC00F-05BA-4C4B-9625-EF12C0384CDA}</ProjectGuid>
     <OutputType>Library</OutputType>
+    <OutputPath>../../bin/Debug</OutputPath>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PlanetaryDiversity</RootNamespace>
     <AssemblyName>PlanetaryDiversity</AssemblyName>
@@ -16,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\build\GameData\PlanetaryDiversity\Plugins\</OutputPath>
+    <OutputPath>../../bin/Debug</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\build\GameData\PlanetaryDiversity\Plugins\</OutputPath>
+    <OutputPath>../../bin/Release</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
