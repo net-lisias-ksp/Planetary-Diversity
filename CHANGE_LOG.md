@@ -1,5 +1,7 @@
 # Planetary-Diversity :: Change Log
 
+* 2018-0331: 1.4.2-1 (StollD) for KSP 1.4.1
+	+ Updated to KSP 1.4.2
 * 2017-1029: 1.3.0-4 (StollD) for KSP 1.3.x
 	+ Ported @Sigma88's namegenerator from Stellarator to PD
 	+ Various fixes for all tweaks
