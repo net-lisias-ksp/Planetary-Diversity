@@ -1,5 +1,16 @@
-# Planetary-Diversity
-This is a modification for Kerbal Space Program, that creates some diversity on the otherwise static planets.
+# Planetary-Diversity/L
+
+Creates some diversity on KSP Planets by changing the seeds of PQSMods and other things. Fork by Lisias.
+
+
+## In a Hurry
+
+* [Latest Release](https://github.com/net-lisias-kspu/Planetary-Diversity/releases)
+* [Source](https://github.com/net-lisias-kspu/Planetary-Diversity)
+* [Binaries](https://github.com/net-lisias-kspu/Planetary-Diversity/tree/Archive)
+
+
+## Description
 
 ### How does it work?
 When a savegame is loaded, this mod loads and changes some parameters of the planets, for example the noise functions that are used to generate the terrain.
@@ -22,7 +33,14 @@ Due to the modularity of Planetary Diversity, other people can write custom twea
 ### I dont want to change {insert Feature here}!
 Don't worry, all tweaks can be disabled seperately. Just open GameData/PlanetaryDiversity/Config/{config name}.cfg (for custom tweaks please ask the respective modder) and set everything you don't want to `false`
 
-### License
+
+## License
 Planetary Diversity is licensed under the Terms of the MIT License
 
-Copyright (c) Dorian Stoll (StollD / Thomas P.) 2017
+Copyright for portions of project Foo are held by Dorian Stoll (StollD / Thomas P.) 2017 as part of project Planetary-Diversity. All other copyright for project Planetary-Diversity/L are held by Lisias Toledo 2018.
+
+
+## Parent
+* [Thomas P.](https://forum.kerbalspaceprogram.com/index.php?/profile/113164-thomas-p/)
+	* [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/164870-130131-free-for-adoption-planetary-diversity-release-4-oct-29/)
+	* [GitHub](https://github.com/net-lisias-ksp/Planetary-Diversity)
