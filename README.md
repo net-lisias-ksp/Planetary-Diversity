@@ -1,6 +1,6 @@
-# Planetary-Diversity
+# Planetary-Diversity/L
 
-Creates some diversity on KSP Planets by changing the seeds of PQSMods and other things.
+Creates some diversity on KSP Planets by changing the seeds of PQSMods and other things. Fork by Lisias.
 
 
 ## In a Hurry
@@ -37,10 +37,10 @@ Don't worry, all tweaks can be disabled seperately. Just open GameData/Planetary
 ## License
 Planetary Diversity is licensed under the Terms of the MIT License
 
-Copyright (c) Dorian Stoll (StollD / Thomas P.) 2017
+Copyright for portions of project Foo are held by Dorian Stoll (StollD / Thomas P.) 2017 as part of project Planetary-Diversity. All other copyright for project Planetary-Diversity/L are held by Lisias Toledo 2018.
 
 
-## UPSTREAM
+## Parent
 * [Thomas P.](https://forum.kerbalspaceprogram.com/index.php?/profile/113164-thomas-p/)
 	* [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/164870-130131-free-for-adoption-planetary-diversity-release-4-oct-29/)
 	* [GitHub](https://github.com/net-lisias-ksp/Planetary-Diversity)
