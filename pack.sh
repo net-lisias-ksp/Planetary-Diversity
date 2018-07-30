@@ -2,9 +2,16 @@
 
 source ./CONFIG.inc
 
+clean() {
+	rm $FILE
+	if [ ! -d Archive ] ; then
+		mkdir Archive
+	fi
+}
+
 FILE=$PACKAGE-$VERSION.zip
 echo $FILE
-rm $FILE
+clean
 zip -r $FILE ./GameData/* -x ".*"
 zip -r $FILE ./PluginData/* -x ".*"
 zip -d $FILE __MACOSX .DS_Store

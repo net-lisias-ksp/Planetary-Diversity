@@ -1,5 +1,6 @@
 .vs
 packages
+Archive
 Source/**/obj/
 Source/**/bin/
 GameData/net.lisias.ksp/*.version
