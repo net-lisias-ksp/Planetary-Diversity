@@ -3,25 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity", "src\main\PlanetaryDiversity.csproj", "{EAEAC00F-05BA-4C4B-9625-EF12C0384CDA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity", "Source\main\PlanetaryDiversity.csproj", "{EAEAC00F-05BA-4C4B-9625-EF12C0384CDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.API", "src\api\PlanetaryDiversity.API.csproj", "{CFAEC4BD-4974-451A-9C3C-08E90EA75A6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.API", "Source\api\PlanetaryDiversity.API.csproj", "{CFAEC4BD-4974-451A-9C3C-08E90EA75A6C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PQSMods", "PQSMods", "{70428AEC-2261-491C-A6C4-A418435AD87E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.PQSMods.Seed", "src\pqsmods\seed\PlanetaryDiversity.PQSMods.Seed.csproj", "{8E05AA91-E0ED-414B-8BCB-C96F9D298930}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.PQSMods.Seed", "Source\pqsmods\seed\PlanetaryDiversity.PQSMods.Seed.csproj", "{8E05AA91-E0ED-414B-8BCB-C96F9D298930}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CelestialBodies", "CelestialBodies", "{E1266E82-3864-415D-AE0C-F1A727386042}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.CelestialBodies.Orbit", "src\celestialbodies\orbit\PlanetaryDiversity.CelestialBodies.Orbit.csproj", "{71A78686-BEA9-4206-A221-B99F247F2B4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.CelestialBodies.Orbit", "Source\celestialbodies\orbit\PlanetaryDiversity.CelestialBodies.Orbit.csproj", "{71A78686-BEA9-4206-A221-B99F247F2B4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.CelestialBodies.GasPlanetColor", "src\celestialbodies\gasplanetcolor\PlanetaryDiversity.CelestialBodies.GasPlanetColor.csproj", "{5D13838E-40E3-43C0-B9B2-29C843DB876A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.CelestialBodies.GasPlanetColor", "Source\celestialbodies\gasplanetcolor\PlanetaryDiversity.CelestialBodies.GasPlanetColor.csproj", "{5D13838E-40E3-43C0-B9B2-29C843DB876A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.CelestialBodies.Atmosphere", "src\celestialbodies\atmosphere\PlanetaryDiversity.CelestialBodies.Atmosphere.csproj", "{66F689F5-6DCA-498C-BE2B-D91AAE2ABFF6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.CelestialBodies.Atmosphere", "Source\celestialbodies\atmosphere\PlanetaryDiversity.CelestialBodies.Atmosphere.csproj", "{66F689F5-6DCA-498C-BE2B-D91AAE2ABFF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.CelestialBodies.Name", "src\celestialbodies\name\PlanetaryDiversity.CelestialBodies.Name.csproj", "{26F6B438-65DC-4869-B6E4-96A4EA69CF65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.CelestialBodies.Name", "Source\celestialbodies\name\PlanetaryDiversity.CelestialBodies.Name.csproj", "{26F6B438-65DC-4869-B6E4-96A4EA69CF65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.Components", "src\components\PlanetaryDiversity.Components.csproj", "{851D7BB6-6F14-45FE-A945-F7FD73902D94}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.Components", "Source\components\PlanetaryDiversity.Components.csproj", "{851D7BB6-6F14-45FE-A945-F7FD73902D94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
