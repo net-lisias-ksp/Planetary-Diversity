@@ -2,18 +2,23 @@
 
 source ./CONFIG.inc
 
+clean() {
+	rm "./GameData/$TARGETDIR/Plugins"/*.dll
+	rm "${KSP_DEV}/GameData/$TARGETDIR/Plugins"/*.dll
+}
+
 deploy() {
 	local DLL=$1
 
-	if [ -f "./$PROJECTSDIR/bin/Release/$DLL.dll" ] ; then
-		cp "./$PROJECTSDIR/bin/Release/$DLL.dll" "./GameData/$TARGETDIR/Plugins"
+	if [ -f "./bin/Release/$DLL.dll" ] ; then
+		cp "./bin/Release/$DLL.dll" "./GameData/$TARGETDIR/Plugins"
 		if [ -f "${KSP_DEV}/GameData/$TARGETDIR/" ] ; then
-			cp "./$PROJECTSDIR/bin/Release/$DLL.dll" "${KSP_DEV/}GameData/$TARGETDIR/Plugins"
+			cp "./bin/Release/$DLL.dll" "${KSP_DEV/}GameData/$TARGETDIR/Plugins"
 		fi
 	fi
-	if [ -f "./$PROJECTSDIR/bin/Debug/$DLL.dll" ] ; then
+	if [ -f "./bin/Debug/$DLL.dll" ] ; then
 		if [ -d "${KSP_DEV}/GameData/$TARGETDIR/" ] ; then
-			cp "./$PROJECTSDIR/bin/Debug/$DLL.dll" "${KSP_DEV}GameData/$TARGETDIR/Plugins"
+			cp "./bin/Debug/$DLL.dll" "${KSP_DEV}GameData/$TARGETDIR/Plugins"
 		fi
 	fi
 }
@@ -24,4 +29,8 @@ cp $VERSIONFILE "./GameData/net.lisias.ksp"
 cp README.md "./GameData/$TARGETDIR"
 cp CHANGE_LOG.md "./GameData/$TARGETDIR"
 cp LICENSE "./GameData/$TARGETDIR"
-deploy $PACKAGE
+
+clean
+for p in $PACKAGE $PACKAGE.API $PACKAGE.CelestialBodies.Atmosphere $PACKAGE.CelestialBodies.GasPlanetColor $PACKAGE.CelestialBodies.Orbit $PACKAGE.Components $PACKAGE.PQSMods ; do
+	deploy $p
+done
