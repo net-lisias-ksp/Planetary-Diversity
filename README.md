@@ -1,4 +1,4 @@
-# Planetary-Diversity/L
+# Planetary Diversity /L
 
 Creates some diversity on KSP Planets by changing the seeds of PQSMods and other things. Fork by Lisias.
 
@@ -6,8 +6,17 @@ Creates some diversity on KSP Planets by changing the seeds of PQSMods and other
 ## In a Hurry
 
 * [Latest Release](https://github.com/net-lisias-kspu/Planetary-Diversity/releases)
+	+ [Binaries](https://github.com/net-lisias-kspu/Planetary-Diversity/tree/Archive)
 * [Source](https://github.com/net-lisias-kspu/Planetary-Diversity)
-* [Binaries](https://github.com/net-lisias-kspu/Planetary-Diversity/tree/Archive)
+* [Issue Tracker](https://github.com/net-lisias-ksp/KSPAPIPlanetary-Diversity/issues)
+* Documentation	
+	+ [Homepage](http://ksp.lisias.net/add-ons/Planetary-Diversity) on L Aerospace KSP Division
+	+ [Project's README](https://github.com/net-lisias-ksp/Planetary-Diversity/blob/master/README.md)
+	+ [Change Log](./CHANGE_LOG.md)
+	+ [TODO](./TODO.md) list
+* Official Distribution Sites:
+	+ [Homepage](http://ksp.lisias.net/add-ons/Planetary-Diversity) on L Aerospace
+	+ [Source and Binaries](https://github.com/net-lisias-ksp/Planetary-Diversity) on GitHub.
 
 
 ## Description
@@ -35,9 +44,9 @@ Don't worry, all tweaks can be disabled seperately. Just open GameData/Planetary
 
 
 ## License
-Planetary Diversity is licensed under the Terms of the MIT License
+Planetary Diversity is licensed under the Terms of the MIT License.
 
-Copyright for portions of project Foo are held by Dorian Stoll (StollD / Thomas P.) 2017 as part of project Planetary-Diversity. All other copyright for project Planetary-Diversity/L are held by Lisias Toledo 2018.
+Copyright for portions of project `Planetary Diversity` are held by Dorian Stoll (StollD / Thomas P.) 2017 as part of project `Planetary Diversity`. All other copyright for project `Planetary Diversity /L` are held by Lisias Toledo 2018.
 
 
 ## Parent
