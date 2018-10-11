@@ -1,14 +1,9 @@
 {
-	"NAME":"Planetary Diversity/L",
-	"URL":"https://raw.githubusercontent.com/net-lisias-ksp/Planetary-Diversity/PlanetaryDiversity.version",
-	"DOWNLOAD":"https://github.com/net.lisias.ksp/Planetary-Diversity/releases",
-	"CHANGE_LOG":"https://raw.githubusercontent.com/net-lisias-ksp/Planetary-Diversity/CHANGE_LOG.md",
-	"CHANGE_LOG_URL":"https://raw.githubusercontent.com/net-lisias-ksp/Planetary-Diversity/CHANGES.md",
-	"GITHUB":{
-		"USERNAME":"net-lisias-ksp",
-		"REPOSITORY":"Planetary-Diversity",
-		"ALLOW_PRE_RELEASE":false
-		},
+	"NAME"		: "Planetary Diversity/L",
+	"URL"		: "https://raw.githubusercontent.com/net-lisias-ksp/Planetary-Diversity/PlanetaryDiversity.version",
+	"DOWNLOAD"	: "https://github.com/net.lisias.ksp/Planetary-Diversity/releases",
+	"CHANGE_LOG"	: "https://raw.githubusercontent.com/net-lisias-ksp/Planetary-Diversity/CHANGE_LOG.md",
+	"CHANGE_LOG_URL": "https://raw.githubusercontent.com/net-lisias-ksp/Planetary-Diversity/CHANGES.md",
 	"VERSION":{
 		"MAJOR":1,
 		"MINOR":4,
@@ -16,12 +11,18 @@
 		"BUILD":1
 		},
 	"KSP_VERSION":{
-		"MAJOR":1,"MINOR":4,"PATCH":2
+		"MAJOR":1,
+		"MINOR":4,
+		"PATCH":2
 		},
 	"KSP_VERSION_MIN":{
-		"MAJOR":1,"MINOR":4,"PATCH":2
+		"MAJOR":1,
+		"MINOR":4,
+		"PATCH":2
 		},
 	"KSP_VERSION_MAX":{
-		"MAJOR":1,"MINOR":4,"PATCH":2
+		"MAJOR":1,
+		"MINOR":4,
+		"PATCH":2
 		}
 }
